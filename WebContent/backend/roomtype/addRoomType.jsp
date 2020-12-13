@@ -106,7 +106,7 @@ img {
             var filename = "";
             var content = document.getElementById("preview-display");
 			var thefiles;
-            myFile.addEventListener("change", function () {
+            myFile.addEventListener("change", function () { //預覽要上傳的照片
             	 let inputfiles = document.getElementById("rmpic");
                 if (this.files) {
                     thefiles = this.files;

@@ -13,8 +13,7 @@
     		<select id="rmtype">
     				<option disabled selected>選擇要上傳照片的房型</option>
     			<c:forEach var="rmtypevo" items="${rmtypeList}">
-    				<option disabled>${rmtypevo.type_name}</option>
-    				<option>${rmtypevo.rm_type}</option>
+    				<option value="${rmtypevo.rm_type}">${rmtypevo.type_name}</option>
     			</c:forEach>
     			
     		</select>

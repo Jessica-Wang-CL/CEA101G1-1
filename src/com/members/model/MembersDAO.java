@@ -25,11 +25,11 @@ public class MembersDAO implements MembersDAO_interface {
 
 	private static final String INSERT = 
 			"INSERT INTO MEMBERS (MB_ID, MB_NAME, MB_ACC, MB_PWD, MB_BD, MB_PIC, MB_PHONE, MB_EMAIL, MB_CITY, MB_TOWN, MB_ADDRESS) VALUES ('MEM' || LPAD(to_char(MB_SEQ.NEXTVAL), 7, '0'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-	private static final String UPDATE = "UPDATE MEMBERS SET MB_NAME = ?, MB_BD = ?, MB_PHONE = ?, MB_EMAIL = ?, MB_CITY = ?, MB_TOWN = ?, MB_ADDRESS = ?  WHERE MB_ID = ?";
+	private static final String UPDATE = "UPDATE MEMBERS SET MB_NAME = ?, MB_BD = ?, MB_PHONE = ?, MB_EMAIL = ?, MB_CITY = ?, MB_TOWN = ?, MB_ADDRESS = ? WHERE MB_ID = ?";
 	private static final String UPDATESTATUS = "UPDATE MEMBERS SET MB_STATUS = ?,  WHERE MB_ID = ?";
-	private static final String UPDATEPIC = "UPDATE MEMBERS SET MB_PIC = ?,  WHERE MB_ID = ?";
-	private static final String UPDATEPWD = "UPDATE MEMBERS SET MB_PWD = ?,  WHERE MB_ID = ?";
-	private static final String UPDATEPOINT = "UPDATE MEMBERS SET MB_POINT = ?,  WHERE MB_ID = ?";
+	private static final String UPDATEPIC = "UPDATE MEMBERS SET MB_PIC = ? WHERE MB_ID = ?";
+	private static final String UPDATEPWD = "UPDATE MEMBERS SET MB_PWD = ? WHERE MB_ID = ?";
+	private static final String UPDATEPOINT = "UPDATE MEMBERS SET MB_POINT = ? WHERE MB_ID = ?";
 	private static final String GETONEBYACC = "SELECT * FROM MEMBERS WHERE MB_ACC = ?";
 	private static final String GETONEBYID = "SELECT * FROM MEMBERS WHERE MB_ID = ?";
 	private static final String GETALL = "SELECT * FROM MEMBERS ORDER BY MB_ID";
@@ -329,6 +329,7 @@ public class MembersDAO implements MembersDAO_interface {
 			membervo.setMb_status(rs.getString("MB_STATUS"));
 			membervo.setCreate_date(rs.getDate("CREATE_DATE"));
 			membervo.setMb_point(rs.getInt("MB_POINT"));
+			membervo.setMb_pic(rs.getBytes("MB_PIC"));
 			
 		} catch (SQLException e) {
 			throw new RuntimeException("A database error occured. " + e.getMessage());
@@ -375,7 +376,7 @@ public class MembersDAO implements MembersDAO_interface {
 				MembersVO membervo = new MembersVO();
 				membervo.setMb_id(rs.getString("MB_ID"));
 				membervo.setMb_name(rs.getString("MB_NAME"));
-				membervo.setMb_acc(rs.getString("MB_ID"));
+				membervo.setMb_acc(rs.getString("MB_ACC"));
 				membervo.setMb_pwd(rs.getString("MB_PWD"));
 				membervo.setMb_bd(rs.getDate("MB_BD"));
 				membervo.setMb_phone(rs.getString("MB_PHONE"));

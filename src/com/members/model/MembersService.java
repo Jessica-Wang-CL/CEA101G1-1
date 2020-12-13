@@ -17,6 +17,7 @@ public class MembersService {
 		membervo.setMb_name(mb_name);
 		membervo.setMb_acc(mb_acc);
 		membervo.setMb_pwd(mb_pwd);
+		membervo.setMb_pic(mb_pic);
 		membervo.setMb_bd(mb_bd);
 		membervo.setMb_phone(mb_phone);
 		membervo.setMb_email(mb_email);
@@ -62,7 +63,7 @@ public class MembersService {
 		dao.updatePic(membervo);
 	}
 	
-	public void updateMemPic(String mb_id, Integer mb_point) {
+	public void updateMemPoint(String mb_id, Integer mb_point) {
 		MembersVO membervo = new MembersVO();
 		membervo.setMb_id(mb_id);
 		membervo.setMb_point(mb_point);
@@ -74,7 +75,7 @@ public class MembersService {
 	}
 	
 	public MembersVO getOneByMbId(String mb_id) {
-		return dao.getOneByAcc(mb_id);
+		return dao.getOneById(mb_id);
 	}
 	
 	public List<MembersVO> getAll(){

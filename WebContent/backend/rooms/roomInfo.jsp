@@ -20,15 +20,13 @@
 	href="${pageContext.request.contextPath}/css/bootstrap.min.css" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/backend.css" />
-<title>房型管理</title>
+<title>客房管理</title>
 <script src="${pageContext.request.contextPath}/js/jquery-3.5.1.min.js"></script>
 </head>
 <style>
 .showAllRooms, .addRoomPic{
 height:90vh
 }
- {
-
 </style>
 <body>
 	<section class="wrapper">

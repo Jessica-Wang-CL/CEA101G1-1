@@ -59,7 +59,7 @@ background-color: #f4f4f2;
 				<c:forEach var="pic" items="${rmpics}">
 					<div>
 						<img
-							src="<%=request.getContextPath() %>/RoomPicServlet?rmpicno=${pic.rm_pic_no}&action=getOneRmPic">
+							src="<%=request.getContextPath()%>/RoomPicServlet?rmpicno=${pic.rm_pic_no}&action=getOneRmPic">
 					</div>
 				</c:forEach>
 			</c:when>
