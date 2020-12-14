@@ -7,6 +7,7 @@ public class MembersVO {
 	private String mb_name;
 	private String mb_acc;
 	private String mb_pwd;
+	private String mb_salt;
 	private Date mb_bd;
 	private byte[] mb_pic;
 	private String mb_phone;
@@ -20,13 +21,14 @@ public class MembersVO {
 	
 	public MembersVO() {};
 	
-	public MembersVO(String mb_id, String mb_name, String mb_acc, String mb_pwd, Date mb_bd, byte[] mb_pic,
+	public MembersVO(String mb_id, String mb_name, String mb_acc, String mb_pwd, String mb_salt, Date mb_bd, byte[] mb_pic,
 			String mb_phone, String mb_email, String mb_city, String mb_town, String mb_address, Integer mb_point) {
 		super();
 		this.mb_id = mb_id;
 		this.mb_name = mb_name;
 		this.mb_acc = mb_acc;
 		this.mb_pwd = mb_pwd;
+		this.mb_pwd = mb_salt;
 		this.mb_bd = mb_bd;
 		this.mb_pic = mb_pic;
 		this.mb_phone = mb_phone;
@@ -119,6 +121,20 @@ public class MembersVO {
 	}
 	public void setMb_point(Integer mb_point) {
 		this.mb_point = mb_point;
+	}
+
+	/**
+	 * @return the mb_salt
+	 */
+	public String getMb_salt() {
+		return mb_salt;
+	}
+
+	/**
+	 * @param mb_salt the mb_salt to set
+	 */
+	public void setMb_salt(String mb_salt) {
+		this.mb_salt = mb_salt;
 	}
 	
 

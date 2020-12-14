@@ -131,7 +131,7 @@ img {
 									<c:when test="${member.mb_status.equals('0')}">未啟用</c:when>
 									<c:when test="${member.mb_status.equals('1')}">已啟用</c:when>
 									<c:when test="${member.mb_status.equals('2')}">已鎖定</c:when>
-									<c:otherwise>已死亡</c:otherwise>
+									<c:otherwise>已註銷</c:otherwise>
 								</c:choose></td>
 							<td class="mb_bd" style="display: none">${member.mb_bd.toString()}</td>
 							<td class="mb_phone" style="display: none">${member.mb_phone}</td>

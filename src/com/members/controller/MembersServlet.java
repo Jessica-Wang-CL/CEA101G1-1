@@ -5,8 +5,14 @@ import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Base64.Decoder;
+import java.util.Base64.Encoder;
 import java.util.List;
 import javax.servlet.http.*;
+
+import org.apache.catalina.tribes.util.Arrays;
+
 import com.members.model.MembersService;
 import com.members.model.MembersVO;
 import com.payment.model.PaymentService;
@@ -14,6 +20,8 @@ import com.payment.model.PaymentService;
 import javax.servlet.*;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
+import security.SecureUtils;
+
 
 @MultipartConfig
 @WebServlet("/MembersServlet")
@@ -28,15 +36,21 @@ public class MembersServlet extends HttpServlet {
 		String action = req.getParameter("action").trim();
 		RequestDispatcher dispatcher = null;
 		InputStream is = null;
+		
 
 		if ("insert_member".equals(action)) {
 			res.setCharacterEncoding("UTF-8");
 			res.setContentType("text; charset=utf-8");
 			PrintWriter out = res.getWriter();
+			SecureUtils security = new SecureUtils();
 			try {
 				String mb_name = req.getParameter("mb_lname").trim() + req.getParameter("mb_fname").trim();
 				String mb_acc = req.getParameter("mb_acc").trim();
-				String mb_pwd = req.getParameter("mb_pwd").trim();
+				byte[] salt = security.getSalt();
+				Encoder encoder = Base64.getEncoder();
+				String mb_salt = encoder.encodeToString(salt);
+				
+				String mb_pwd = security.getSecurePassword(req.getParameter("mb_pwd").trim(), salt);
 				String mb_bd_str = req.getParameter("mb_bd").trim();
 				DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 				Date mb_bd = new Date(df.parse(mb_bd_str).getTime());
@@ -45,13 +59,12 @@ public class MembersServlet extends HttpServlet {
 				is.read(mb_pic);
 				String mb_phone = req.getParameter("mb_phone").trim();
 				String mb_email = req.getParameter("mb_email").trim();
-
 				String mb_city = req.getParameter("mb_city").trim();
 				String mb_town = req.getParameter("mb_town").trim();
 				String mb_address = req.getParameter("mb_address").trim();
 				// payment vo
 				MembersService memberSvc = new MembersService();
-				memberSvc.addNewMem(mb_name, mb_acc, mb_pwd, mb_bd, mb_pic, mb_phone, mb_email, mb_city, mb_town,
+				memberSvc.addNewMem(mb_name, mb_acc, mb_pwd, mb_salt, mb_bd, mb_pic, mb_phone, mb_email, mb_city, mb_town,
 						mb_address);
 
 				MembersVO membervo = memberSvc.getOneByMbAcc(mb_acc);
@@ -115,11 +128,15 @@ public class MembersServlet extends HttpServlet {
 		if ("update_password".equals(action)) {
 			res.setCharacterEncoding("UTF-8");
 			res.setContentType("text; charset=utf-8");
+			SecureUtils security = new SecureUtils();
 			try {
-				String mb_pwd = req.getParameter("mb_pwd").trim();
+				byte[] salt = security.getSalt();
+				Encoder encoder = Base64.getEncoder();
+				String mb_salt = encoder.encodeToString(salt);
+				String mb_pwd = security.getSecurePassword(req.getParameter("mb_pwd").trim(), salt);
 				String mb_id = req.getParameter("mb_id").trim();
 				MembersService memberSvc = new MembersService();
-				memberSvc.updatePwd(mb_pwd, mb_id);
+				memberSvc.updatePwd(mb_pwd, mb_salt, mb_id);
 			} catch (Exception e) {
 				e.printStackTrace();
 				req.setAttribute("msg", "更新失敗");
@@ -191,9 +208,10 @@ public class MembersServlet extends HttpServlet {
 		if ("member-login".equals(action)) {
 			res.setCharacterEncoding("UTF-8");
 			PrintWriter out = res.getWriter();
+			SecureUtils security = new SecureUtils();
 			try {
 				String mb_email = req.getParameter("mb_email");
-				String mb_pwd = req.getParameter("mb_pwd");
+				String mb_pwd = req.getParameter("mb_pwd").trim();
 				String pass = req.getParameter("pass");
 				MembersService memberSvc = new MembersService();
 				MembersVO member = memberSvc.getOneByMbEmail(mb_email);
@@ -202,7 +220,9 @@ public class MembersServlet extends HttpServlet {
 					out.print("email_not_found");
 					return;
 				}
-				if(!member.getMb_pwd().equals(mb_pwd)) {
+				Decoder decoder = Base64.getDecoder();
+				byte[] salt = decoder.decode(member.getMb_salt());
+				if(!member.getMb_pwd().equals(security.getSecurePassword(mb_pwd, salt))) {
 					res.setContentType("text; charset=utf8");
 					out.print("pwd_incorrect");
 					return;
@@ -316,4 +336,6 @@ public class MembersServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		doPost(req, res);
 	}
+	
+	
 }

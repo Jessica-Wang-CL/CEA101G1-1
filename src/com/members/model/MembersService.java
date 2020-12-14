@@ -11,12 +11,13 @@ public class MembersService {
 		dao = new MembersDAO();
 	}
 	
-	public MembersVO addNewMem(String mb_name, String mb_acc, String mb_pwd, Date mb_bd, byte[] mb_pic, String mb_phone,
+	public MembersVO addNewMem(String mb_name, String mb_acc, String mb_pwd, String mb_salt, Date mb_bd, byte[] mb_pic, String mb_phone,
 			String mb_email, String mb_city, String mb_town, String mb_address) {
 		MembersVO membervo = new MembersVO();
 		membervo.setMb_name(mb_name);
 		membervo.setMb_acc(mb_acc);
 		membervo.setMb_pwd(mb_pwd);
+		membervo.setMb_salt(mb_salt);
 		membervo.setMb_pic(mb_pic);
 		membervo.setMb_bd(mb_bd);
 		membervo.setMb_phone(mb_phone);
@@ -49,10 +50,11 @@ public class MembersService {
 		dao.updateStatus(membervo);
 	}
 	
-	public void updatePwd(String mb_id, String mb_pwd) {
+	public void updatePwd(String mb_id, String mb_pwd, String mb_salt) {
 		MembersVO membervo = new MembersVO();
 		membervo.setMb_id(mb_id);
 		membervo.setMb_status(mb_pwd);
+		membervo.setMb_salt(mb_salt);
 		dao.updateStatus(membervo);
 	}
 	

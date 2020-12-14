@@ -267,7 +267,7 @@ String temp_confirm_password = request.getParameter("temp-confirm-password");
 										placeholder="Address of Town" required /> <input type="text"
 										name="mb_address" placeholder="Address" required /> <label
 										class="fieldlabels">上傳個人照片(Upload Your Photo) optional</label>
-									<input type="file" name="mb_pic" accept="image/*" required
+									<input type="file" name="mb_pic" accept="image/*"
 										style="text-align-last: center" />
 								</div>
 								<input type="button" name="next"
