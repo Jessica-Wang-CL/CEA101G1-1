@@ -10,6 +10,7 @@ public interface MembersDAO_interface {
 	public void updatePic(MembersVO membervo);
 	public void updatePoint(MembersVO membervo);
 	public MembersVO getOneByAcc(String mb_acc);
+	public MembersVO getOneByEmail(String mb_email);
 	public MembersVO getOneById(String mb_id);
 	public List<MembersVO> getAll();
 	public List<MembersVO> getAllByStatus(String mb_status);

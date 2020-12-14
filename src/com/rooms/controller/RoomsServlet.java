@@ -22,7 +22,6 @@ public class RoomsServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-		req.setCharacterEncoding("UTF-8");
 		res.setCharacterEncoding("UTF-8");
 		res.setContentType("text; charset=utf-8");
 		PrintWriter out = res.getWriter();

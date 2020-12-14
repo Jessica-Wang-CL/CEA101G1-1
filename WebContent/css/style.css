@@ -240,17 +240,12 @@ button {
     background: none;
     font-family: "Open Sans", Helvetica, Arial, sans-serif;
 }
-.tip {
-    font-size: 20px;
-    margin: 40px auto 50px;
-    text-align: center;
-}
 
 .cont {
     overflow: hidden;
     position: fixed;
     width: 640px;
-    height: 450px;
+    height: 80vh;
     background: #fff;
     right: 0;
     left: 0;
@@ -260,9 +255,20 @@ button {
     min-height: 10em;
     position: 99;
 }
-
+#login-form {
+	height:100%;
+}
+#registration-form .sign-up  {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	height:80vh;
+}
 .login-form {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     width: 400px;
     height: 100%;
     -webkit-transition: -webkit-transform 1.2s ease-in-out;
@@ -391,9 +397,9 @@ button {
     border-radius: 30px;
 }
 .img__btn span {
-    position: absolute;
+	position: absolute;
     left: 0;
-    top: 0;
+    top: 0; 
     display: -webkit-box;
     display: flex;
     -webkit-box-pack: center;
@@ -433,20 +439,29 @@ button {
 .img__text h2 {
     color: white;
 }
+.cont .sign-in {
+	height: 100%;
+}
 .cont .sign-in label {
     display: flex;
     flex-direction: row;
     width: 260px;
     margin: 25px auto 0;
     text-align: center;
+    position:relative;
 }
 
 .cont .sign-in label span {
     position: absolute;
-    left: 75px;
-    font-size: 18px;
+    left: 0px;
+    bottom:0px;
+    font-size: 24px;
     color: #cfcfcf;
     text-transform: uppercase;
+}
+
+.cont .sign-in label:hover span {
+	color:black;
 }
 
 .cont .sign-up label {
@@ -470,6 +485,12 @@ button {
     border-bottom: 1px solid rgba(0, 0, 0, 0.4);
     text-align: center;
 }
+.cont input:hover {
+	border-bottom: 2px solid rgba(0, 0, 0, 1)
+}
+.cont input:focus {
+	border-bottom: 2px solid rgba(0, 0, 0, 1)
+}
 
 .forgot-pass {
     margin-top: 15px;
@@ -485,11 +506,6 @@ button {
     border: 2px solid #d3dae9;
     color: #8fa1c7;
 }
-.fb-btn span {
-    font-weight: bold;
-    color: #455a81;
-}
-
 .sign-in {
     -webkit-transition-timing-function: ease-out;
     transition-timing-function: ease-out;
@@ -526,14 +542,17 @@ button {
     left: auto;
     right: 5px;
 }
-/*hover shadow*/
 button.login-button {
     width: 100px;
     height: 30px;
     border: 1px solid black;
     border-radius: 20px;
+    margin: 0 auto;
 }
-@keyframes hover {
+
+/*hover shadow*/
+
+/* @keyframes hover {
     50% {
         transform: translateY(-3px);
     }
@@ -573,7 +592,7 @@ button.login-button {
     width: 90%;
     opacity: 0;
     background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0) 80%);
-    /* W3C */
+    W3C
     transition-duration: 0.3s;
     transition-property: transform opacity;
 }
@@ -595,7 +614,7 @@ button.login-button {
     animation-timing-function: linear;
     animation-iteration-count: infinite;
     animation-direction: alternate;
-}
+} */
 /* swal 提示Alert*/
 .swal-footer {
     text-align: center;

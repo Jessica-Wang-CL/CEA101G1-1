@@ -1,30 +1,15 @@
-/*  ---------------------------------------------------
-    Template Name: Sona
-    Description: Sona Hotel Html Template
-    Author: Colorlib
-    Author URI: https://colorlib.com
-    Version: 1.0
-    Created: Colorlib
----------------------------------------------------------  */
-/*------------------
-        Preloader
-    --------------------*/
-$(window).on("load", function () {
-    $(".loader").delay(400).fadeOut();
-    $("#preloder").delay(600).fadeOut("slow");
-});
-("use strict");
 
-/*------------------
+
+	/*------------------
 		My Settings
     --------------------*/
 
 $(document).ready(function () {
-    $(".mainmenu li a").hover(function () {
+  /*  $(".mainmenu li a").hover(function () {
         let number = this.id;
         let strip = $(".accordion ul li:nth-child(" + number + ")");
         strip.addClass("hover");
-    });
+    }); 
     /*------------------
         Button Effect
     --------------------*/
@@ -44,33 +29,6 @@ $(document).ready(function () {
                 $(this).find("span").css({ top: relY, left: relX });
             });
     });
-
-    /*------------------
-        RWD用縮放式導覽
-    --------------------*/
-    $(".canvas-open").on("click", function () {
-        $(".offcanvas-menu-wrapper").addClass("show-offcanvas-menu-wrapper");
-        $(".offcanvas-menu-overlay").addClass("active");
-    });
-
-    $(".canvas-close, .offcanvas-menu-overlay").on("click", function () {
-        $(".offcanvas-menu-wrapper").removeClass("show-offcanvas-menu-wrapper");
-        $(".offcanvas-menu-overlay").removeClass("active");
-    });
-
-    /*------------------
-		Navigation
-	--------------------*/
-    $(".mobile-menu").slicknav({
-        prependTo: "#mobile-menu-wrap",
-        allowParentLinks: true,
-    });
-
-    /*------------------
-		Nice Select
-	--------------------*/
-    $("select").niceSelect();
-
     /*------------------
 		CodePen Slider
     --------------------*/

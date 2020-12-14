@@ -78,6 +78,10 @@ public class MembersService {
 		return dao.getOneById(mb_id);
 	}
 	
+	public MembersVO getOneByMbEmail(String mb_email) {
+		return dao.getOneByEmail(mb_email);
+	}
+	
 	public List<MembersVO> getAll(){
 		return dao.getAll();
 	}

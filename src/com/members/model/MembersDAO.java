@@ -31,6 +31,7 @@ public class MembersDAO implements MembersDAO_interface {
 	private static final String UPDATEPWD = "UPDATE MEMBERS SET MB_PWD = ? WHERE MB_ID = ?";
 	private static final String UPDATEPOINT = "UPDATE MEMBERS SET MB_POINT = ? WHERE MB_ID = ?";
 	private static final String GETONEBYACC = "SELECT * FROM MEMBERS WHERE MB_ACC = ?";
+	private static final String GETONEBYEMAIL = "SELECT * FROM MEMBERS WHERE MB_EMAIL = ?";
 	private static final String GETONEBYID = "SELECT * FROM MEMBERS WHERE MB_ID = ?";
 	private static final String GETALL = "SELECT * FROM MEMBERS ORDER BY MB_ID";
 	private static final String GETALLBYSTATUS = "SELECT * FROM MEMBERS WHERE MB_STATUS = ? ORDER BY MB_ID";
@@ -359,7 +360,65 @@ public class MembersDAO implements MembersDAO_interface {
 		}
 		return membervo;
 	}
-
+	
+	@Override
+	public MembersVO getOneByEmail(String mb_email) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		MembersVO membervo = null;
+		try {
+			conn = ds.getConnection();
+			pstmt = conn.prepareStatement(GETONEBYEMAIL);
+			pstmt.setString(1, mb_email);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				membervo = new MembersVO();
+				membervo.setMb_id(rs.getString("MB_ID"));
+				membervo.setMb_name(rs.getString("MB_NAME"));
+				membervo.setMb_acc(rs.getString("MB_ID"));
+				membervo.setMb_pwd(rs.getString("MB_PWD"));
+				membervo.setMb_bd(rs.getDate("MB_BD"));
+				membervo.setMb_phone(rs.getString("MB_PHONE"));
+				membervo.setMb_email(rs.getString("MB_EMAIL"));
+				membervo.setMb_city(rs.getString("MB_CITY"));
+				membervo.setMb_town(rs.getString("MB_TOWN"));
+				membervo.setMb_address(rs.getString("MB_ADDRESS"));
+				membervo.setMb_status(rs.getString("MB_STATUS"));
+				membervo.setCreate_date(rs.getDate("CREATE_DATE"));
+				membervo.setMb_point(rs.getInt("MB_POINT"));
+				membervo.setMb_pic(rs.getBytes("MB_PIC"));
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException("A database error occured. " + e.getMessage());
+		} finally {
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace(System.err);
+				}
+			}
+			
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace(System.err);
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return membervo;
+	}
+	
 	@Override
 	public List<MembersVO> getAll() {
 		Connection conn = null;

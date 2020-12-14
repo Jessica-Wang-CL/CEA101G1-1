@@ -1,3 +1,8 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="com.members.model.*"%>
+<%@ include file="/frontend/login.file"%> 
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -7,31 +12,29 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
         <title>Diamond Resort</title>
-        <link rel="icon" type="image/png" href="/img/loading.png" />
+        <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/img/loading.png" />
         <!-- Google Font -->
         <link href="https://fonts.googleapis.com/css?family=Lora:400,700&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css?family=Cabin:400,500,600,700&display=swap" rel="stylesheet" />
 
         <!-- Css Styles -->
-        <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
-        <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.min.css" type="text/css" />
         <link
             rel="stylesheet"
             href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
             integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
             crossorigin="anonymous"
         />
-        <link rel="stylesheet" href="css/elegant-icons.css" type="text/css" />
-        <link rel="stylesheet" href="css/flaticon.css" type="text/css" />
-        <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css" />
-        <link rel="stylesheet" href="css/nice-select.css" type="text/css" />
-        <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css" />
-        <link rel="stylesheet" href="css/magnific-popup.css" type="text/css" />
-        <link rel="stylesheet" href="css/slicknav.min.css" type="text/css" />
-        <link rel="stylesheet" href="css/slick-theme.css" type="text/css" />
-        <link rel="stylesheet" href="css/slick.css" type="text/css" />
-        <link rel="stylesheet" href="css/style.css" type="text/css" />
-        <link rel="stylesheet" href="css/rooms.css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/elegant-icons.css" type="text/css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/flaticon.css" type="text/css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/nice-select.css" type="text/css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery-ui.min.css" type="text/css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/magnific-popup.css" type="text/css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/slicknav.min.css" type="text/css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/slick-theme.css" type="text/css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/slick.css" type="text/css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css" type="text/css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/rooms.css" />
         <style>
             .allrooms {
             }
@@ -109,22 +112,22 @@
                 font-size: 13.5px;
             }
             .accordion ul li:nth-child(1) {
-                background-image: url("/resort_frontend/img/room/honeymoon/honeymoon.jpg");
+                background-image: url("${pageContext.request.contextPath}/img/room/honeymoon/honeymoon.jpg");
                 background-repeat: no-repeat;
                 background-size: cover;
             }
             .accordion ul li:nth-child(2) {
-                background-image: url("/resort_frontend/img/room/standard/standard2.jpg");
+                background-image: url("${pageContext.request.contextPath}/img/room/standard/standard2.jpg");
                 background-repeat: no-repeat;
                 background-size: cover;
             }
             .accordion ul li:nth-child(3) {
-                background-image: url("/resort_frontend/img/room/deluxe/deluxe2.jpg");
+                background-image: url("${pageContext.request.contextPath}/img/room/deluxe/deluxe2.jpg");
                 background-repeat: no-repeat;
                 background-size: cover;
             }
             .accordion ul li:nth-child(4) {
-                background-image: url("/resort_frontend/img/room/poseidon/poseidon.jpg");
+                background-image: url("${pageContext.request.contextPath}/img/room/poseidon/poseidon.jpg");
                 background-repeat: no-repeat;
                 background-size: cover;
             }
@@ -211,11 +214,11 @@
         <!-- Page Preloder -->
 
         <div id="preloder">
-            <img id="preloaderpic" src="img/loading.png" />
+            <img id="preloaderpic" src="${pageContext.request.contextPath}/img/loading.png" />
             <div class="loader"></div>
         </div>
         <!-- login-in-window 登入視窗 -->
-
+		<%@ include file="/frontend/loginbox.file" %>
         <!-- Offcanvas Menu Section Begin -->
         <div class="offcanvas-menu-overlay"></div>
         <div class="canvas-open">
@@ -231,14 +234,6 @@
             <nav class="mainmenu mobile-menu">
                 <ul>
                     <li>
-                        <a href="./pages.html" class="nav-event">會員中心</a>
-                        <ul class="dropdown">
-                            <li><a href="./room-details.html">個人檔案</a></li>
-                            <li><a href="./blog-details.html">我的假期</a></li>
-                            <li><a href="#">我的足跡</a></li>
-                        </ul>
-                    </li>
-                    <li>
                         <a class="nav-event">住客專區</a>
                         <ul class="dropdown">
                             <li><a href="./activity.html">活動報名</a></li>
@@ -250,28 +245,12 @@
                         <a href="shop.html" class="nav-evnet">戴蒙商城</a>
                     </li>
                     <li>
-                        <a class="nav-event" href="./rooms.html">渡假空間</a>
+                        <a class="nav-event" href="">精彩活動</a>
                         <ul class="dropdown">
-                            <li><a href="#">戴蒙經典房</a></li>
-                            <li><a href="#">豪華蜜月房</a></li>
-                            <li><a href="#">奢華海景房</a></li>
-                            <li><a href="#">波賽頓套房</a></li>
-                            <li><a href="#">公共空間</a></li>
+                            <li><a>陸上活動</a></li>
+                            <li><a>海上活動</a></li>
+                            <li><a>網紅行程</a></li>
                         </ul>
-                    </li>
-                    <li>
-                        <a class="nav-event" href="./pages.html">精彩活動</a>
-                        <ul class="dropdown">
-                            <li><a href="./room-details.html">陸上活動</a></li>
-                            <li><a href="./room-details.html">海上活動</a></li>
-                            <li><a href="./room-details.html">網紅行程</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="nav-event log-in">會員登入</a>
-                    </li>
-                    <li>
-                        <a href="" class="nav-event" style="color: rgb(240, 218, 162)">加入會員</a>
                     </li>
                 </ul>
             </nav>
@@ -297,23 +276,15 @@
                         <div class="nav-menu">
                             <nav class="mainmenu">
                                 <ul class="mainmenu-left row">
-                                    <li class="col-4">
-                                        <a href="./pages.html" class="nav-event">會員中心</a>
-                                        <ul class="dropdown">
-                                            <li><a href="./room-details.html">個人檔案</a></li>
-                                            <li><a href="./blog-details.html">我的假期</a></li>
-                                            <li><a href="#">我的足跡</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="col-4">
+                                    <li class="col-6">
                                         <a class="nav-event">住客專區</a>
                                         <ul class="dropdown">
-                                            <li><a href="./activity.html">活動報名</a></li>
-                                            <li><a href="">預約服務</a></li>
-                                            <li><a href="">訂購餐點</a></li>
+                                            <li><a href="#">活動報名</a></li>
+                                            <li><a href="#">預約服務</a></li>
+                                            <li><a href="#">訂購餐點</a></li>
                                         </ul>
                                     </li>
-                                    <li class="col-4">
+                                    <li class="col-6">
                                         <a href="shop.html" class="nav-evnet">戴蒙商城</a>
                                     </li>
                                 </ul>
@@ -321,35 +292,36 @@
                         </div>
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-12 logobox">
-                            <a href="./index.html">
-                                <img src="img/logo.png" alt="" />
+                            <a href="${pageContext.request.contextPath}/frontend/index.jsp">
+                                <img src="${pageContext.request.contextPath}/img/logo.png" alt="" />
                             </a>
                     </div>
                     <div class="my-nav col-5">
                         <div class="nav-menu">
                             <nav class="mainmenu">
                                 <ul class="mainmenu-right row">
-                                    <li class="col-4">
-                                        <a class="nav-event" href="./rooms.html">客房</a>
+                                    <li class="col-6">
+                                        <a class="nav-event" href="#">精彩活動</a>
                                         <ul class="dropdown">
-                                            <li><a href="#">戴蒙經典房</a></li>
-                                            <li><a href="#">豪華蜜月房</a></li>
-                                            <li><a href="#">奢華海景房</a></li>
-                                            <li><a href="#">波賽頓套房</a></li>
-                                            <li><a href="#">公共空間</a></li>
+                                            <li><a href="#">陸上活動</a></li>
+                                            <li><a href="#">海上活動</a></li>
+                                            <li><a href="#">網紅行程</a></li>
                                         </ul>
                                     </li>
-                                    <li class="col-4">
-                                        <a class="nav-event" href="./pages.html">精彩活動</a>
-                                        <ul class="dropdown">
-                                            <li><a href="./room-details.html">陸上活動</a></li>
-                                            <li><a href="./room-details.html">海上活動</a></li>
-                                            <li><a href="./room-details.html">網紅行程</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="log-in col-4">
-                                        <a class="nav-event"><i class="fas fa-user-circle log-in"></i></a>
-                                    </li>
+                                    <li class="col-6"><a class="nav-event"> <c:choose>
+											<c:when test="${member != null}">${member.mb_name}</a>
+												<ul class="dropdown">
+													<li><a href="#">個人檔案</a></li>
+													<li><a href="#">我的假期</a></li>
+													<li><a href="#">歷史訂單</a></li>
+													<li><a href="${pageContext.request.contextPath}/MembersServlet?mb_email=${member.mb_email}&action=member-logout">登出</a></li>
+												</ul></li>
+								</c:when>
+								<c:otherwise>
+									<i class="fas fa-user-circle log-in"></i></a>
+								</c:otherwise>
+								</c:choose>
+								</li>
                             </nav>
                         </div>
                     </div>
@@ -360,7 +332,7 @@
         
         <!-- Booking form -->
         <section class="page-content">
-            <div class="allrooms">
+            <	qw	qwertyu  div class="allrooms">
                 <div class="accordion">
                     <ul>
                         <li tabindex="1">
@@ -402,30 +374,30 @@
                 <div class="room-slider col-8">
                     <div class="slideshow-pic">
                         <div class="item">
-                            <img src="img/room/standard/standard.jpg" />
+                            <img src="${pageContext.request.contextPath}/img/room/standard/standard.jpg" />
                         </div>
                         <div class="item">
-                            <img src="img/room/standard/standard1.jpg" />
+                            <img src="${pageContext.request.contextPath}/img/room/standard/standard1.jpg" />
                         </div>
                         <div class="item">
-                            <img src="img/room/standard/standard2.jpg" />
+                            <img src="${pageContext.request.contextPath}/img/room/standard/standard2.jpg" />
                         </div>
                         <div class="item">
-                            <img src="img/room/standard/standard3.jpg" />
+                            <img src="${pageContext.request.contextPath}/img/room/standard/standard3.jpg" />
                         </div>
                     </div>
                     <div class="slider-nav">
                         <div class="item">
-                            <img src="img/room/standard/standard.jpg" />
+                            <img src="${pageContext.request.contextPath}/img/room/standard/standard.jpg" />
                         </div>
                         <div class="item">
-                            <img src="img/room/standard/standard1.jpg" />
+                            <img src="${pageContext.request.contextPath}/img/room/standard/standard1.jpg" />
                         </div>
                         <div class="item">
-                            <img src="img/room/standard/standard2.jpg" />
+                            <img src="${pageContext.request.contextPath}/img/room/standard/standard2.jpg" />
                         </div>
                         <div class="item">
-                            <img src="img/room/standard/standard3.jpg" />
+                            <img src="${pageContext.request.contextPath}/img/room/standard/standard3.jpg" />
                         </div>
                     </div>
                 </div>
@@ -584,16 +556,16 @@
         </section> -->
 
         <!-- Js Plugins -->
-        <script src="js/jquery-3.5.1.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/jquery.magnific-popup.min.js"></script>
-        <script src="js/jquery.nice-select.min.js"></script>
-        <script src="js/jquery-ui.min.js"></script>
-        <script src="js/jquery.slicknav.js"></script>
-        <script src="js/owl.carousel.min.js"></script>
-        <script src="js/sweetalert.js"></script>
-        <script src="js/slick.min.js"></script>
-        <script src="js/jquery.mousewheel.min.js"></script>
-        <script src="js/room.js"></script>
+        <script src="${pageContext.request.contextPath}/js/jquery-3.5.1.min.js"></script>
+        <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+        <script src="${pageContext.request.contextPath}/js/jquery.magnific-popup.min.js"></script>
+        <script src="${pageContext.request.contextPath}/js/jquery.nice-select.min.js"></script>
+        <script src="${pageContext.request.contextPath}/js/jquery-ui.min.js"></script>
+        <script src="${pageContext.request.contextPath}/js/jquery.slicknav.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+        <script src="${pageContext.request.contextPath}/js/slick.min.js"></script>
+        <script src="${pageContext.request.contextPath}/js/jquery.mousewheel.min.js"></script>
+        <script src="${pageContext.request.contextPath}/js/main.js"></script>
+        <script src="${pageContext.request.contextPath}/js/room.js"></script>
     </body>
 </html>

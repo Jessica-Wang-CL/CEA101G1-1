@@ -1,0 +1,32 @@
+<%
+String sessionID = null;
+String mb_email = null;
+MembersVO member = null;
+member = (MembersVO) session.getAttribute("member");
+
+if (member == null) {
+	Cookie[] cookieList = request.getCookies();
+	if (cookieList != null) {
+		for (int i = 0; i < cookieList.length; i++) {
+	Cookie theCookie = cookieList[i];
+	if (theCookie.getName().equals("diamond-session")) {
+		sessionID = theCookie.getValue();
+		application.getAttribute("logins");
+	}
+	if (theCookie.getName().equals("dmUser")) {
+		mb_email = theCookie.getValue();
+	}
+		}
+	}
+	if (sessionID != null && mb_email != null) {
+		MembersService memberSvc = new MembersService();
+		member = memberSvc.getOneByMbEmail(mb_email);
+		session.setAttribute("member", member);
+	} else if (sessionID == null && mb_email != null) {
+		Cookie dmresort_user = new Cookie("diamond-session", session.getId());
+		dmresort_user.setMaxAge(24 * 60 * 60);
+		response.addCookie(dmresort_user);
+		pageContext.setAttribute("mb_email", mb_email);
+	}
+}
+%>

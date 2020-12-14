@@ -189,11 +189,47 @@ public class MembersServlet extends HttpServlet {
 		}
 
 		if ("member-login".equals(action)) {
+			res.setCharacterEncoding("UTF-8");
+			PrintWriter out = res.getWriter();
 			try {
-
+				String mb_email = req.getParameter("mb_email");
+				String mb_pwd = req.getParameter("mb_pwd");
+				String pass = req.getParameter("pass");
+				MembersService memberSvc = new MembersService();
+				MembersVO member = memberSvc.getOneByMbEmail(mb_email);
+				if (member == null) {
+					res.setContentType("text; charset=utf8");
+					out.print("email_not_found");
+					return;
+				}
+				if(!member.getMb_pwd().equals(mb_pwd)) {
+					res.setContentType("text; charset=utf8");
+					out.print("pwd_incorrect");
+					return;
+				}
+				if("pass".equals(pass)) {
+					String sessionID = req.getSession().getId();
+					Cookie user_session_cookie = new Cookie("diamond-session", sessionID);
+					Cookie dmUser = new Cookie("dmUser", member.getMb_email());
+					user_session_cookie.setMaxAge(24*60*60);
+					res.addCookie(user_session_cookie);
+					res.addCookie(dmUser);
+					dispatcher = req.getRequestDispatcher("/frontend/index.jsp");
+					req.getSession().setAttribute("member", member);
+					dispatcher.forward(req, res);
+				}	
 			} catch (Exception e) {
-
+				e.printStackTrace();
 			}
+		}
+		
+		if ("member-logout".equals(action)) {
+			res.setCharacterEncoding("UTF-8");
+			Cookie dmUser = new Cookie("dmUser", "");
+			req.getSession().removeAttribute("member");
+			dmUser.setMaxAge(0);
+			res.addCookie(dmUser);
+			res.sendRedirect(req.getContextPath()+"/frontend/index.jsp");
 		}
 
 		if ("getone_bymbacc".equals(action)) {
