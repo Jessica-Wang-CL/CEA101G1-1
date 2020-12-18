@@ -30,10 +30,7 @@ $(document).ready(function() {
 		prependTo: "#mobile-menu-wrap",
 		allowParentLinks: true,
 	});
-    /*------------------
-        Nice Select
-    -------------------*/
-	$("select").niceSelect();
+   
     /*------------------
         RWD用導覽側窗
     --------------------*/

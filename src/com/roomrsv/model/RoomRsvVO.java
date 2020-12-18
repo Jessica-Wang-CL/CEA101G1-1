@@ -1,8 +1,9 @@
 package com.roomrsv.model;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class RoomRsvVO {
+public class RoomRsvVO implements Serializable {
 	private Date rsv_date;
 	private String rm_type;
 	private Integer rm_left;

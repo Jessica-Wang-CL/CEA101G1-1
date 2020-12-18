@@ -1,8 +1,9 @@
 package com.bookingorder.model;
 
+import java.io.Serializable;
 import java.sql.*;
 
-public class BookingOrderVO {
+public class BookingOrderVO implements Serializable {
 	private String bk_no;
 	private String mb_id;
 	private Date bk_date;

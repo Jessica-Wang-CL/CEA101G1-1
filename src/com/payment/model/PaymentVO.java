@@ -1,6 +1,8 @@
 package com.payment.model;
 
-public class PaymentVO {
+import java.io.Serializable;
+
+public class PaymentVO implements Serializable {
 	private String pay_no;
 	private String mb_id;
 	private String card_no;

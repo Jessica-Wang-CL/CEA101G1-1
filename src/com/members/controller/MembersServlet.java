@@ -106,7 +106,6 @@ public class MembersServlet extends HttpServlet {
 				String mb_town = req.getParameter("update-mbtown").trim();
 				String mb_address = req.getParameter("update-mbaddress").trim();
 				String mb_id = req.getParameter("update-mbid").trim();
-				System.out.println(mb_id);
 				Part part = req.getPart("update-mbpic");
 				MembersService memberSvc = new MembersService();
 				if (part.getContentType() != null && part.getContentType().indexOf("image") >= 0) {
@@ -209,6 +208,7 @@ public class MembersServlet extends HttpServlet {
 			res.setCharacterEncoding("UTF-8");
 			PrintWriter out = res.getWriter();
 			SecureUtils security = new SecureUtils();
+			HttpSession user_session = req.getSession();
 			try {
 				String mb_email = req.getParameter("mb_email");
 				String mb_pwd = req.getParameter("mb_pwd").trim();
@@ -227,16 +227,19 @@ public class MembersServlet extends HttpServlet {
 					out.print("pwd_incorrect");
 					return;
 				}
-				if("pass".equals(pass)) {
-					String sessionID = req.getSession().getId();
-					Cookie user_session_cookie = new Cookie("diamond-session", sessionID);
+				if("pass".equals(pass)) { //如果通過就存使用者的SeesionID 和 電子郵件 在Cookie裏，用於自動判斷登入
+					String sessionID = req.getSession().getId();  //獲取使用者的sessionID
+					Cookie user_session_cookie = new Cookie("diamond-session", sessionID); 
 					Cookie dmUser = new Cookie("dmUser", member.getMb_email());
-					user_session_cookie.setMaxAge(24*60*60);
-					res.addCookie(user_session_cookie);
-					res.addCookie(dmUser);
-					dispatcher = req.getRequestDispatcher("/frontend/index.jsp");
+					user_session_cookie.setMaxAge(24*60*60); // 設定cookie存活時間為1天
+					res.addCookie(user_session_cookie); //加入cookie到使用者瀏覽器
+					res.addCookie(dmUser); 
+					Object location = user_session.getAttribute("location"); //查看使用者是否有登入前的頁面
+					if (location == null) {
+						location = req.getParameter("location"); //如果沒有的話，表示使用者是使用小人頭登入，找到來源網頁
+					}
 					req.getSession().setAttribute("member", member);
-					dispatcher.forward(req, res);
+					res.sendRedirect((String)location);
 				}	
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -246,10 +249,11 @@ public class MembersServlet extends HttpServlet {
 		if ("member-logout".equals(action)) {
 			res.setCharacterEncoding("UTF-8");
 			Cookie dmUser = new Cookie("dmUser", "");
+			String location = req.getParameter("location");
 			req.getSession().removeAttribute("member");
 			dmUser.setMaxAge(0);
 			res.addCookie(dmUser);
-			res.sendRedirect(req.getContextPath()+"/frontend/index.jsp");
+			res.sendRedirect(location);
 		}
 
 		if ("getone_bymbacc".equals(action)) {
@@ -287,10 +291,8 @@ public class MembersServlet extends HttpServlet {
 		if ("getone_mbpic".equals(action)) {
 			res.setContentType("img/jpg");
 			String mb_id = req.getParameter("mb_id").trim();
-			System.out.println(mb_id);
 			MembersService memberSvc = new MembersService();
 			byte[] mbpic = memberSvc.getOneByMbId(mb_id).getMb_pic();
-			System.out.println(mbpic == null);
 			if (mbpic != null) {
 				res.getOutputStream().write(mbpic);
 			} else {
@@ -298,6 +300,7 @@ public class MembersServlet extends HttpServlet {
 				byte[] pic = new byte[is.available()];
 				is.read(pic);
 				res.getOutputStream().write(pic);
+				is.close();
 			}
 			return;
 		}

@@ -35,9 +35,9 @@ th {
 
 .showmsg {
 	width: 100%;
-	height: 60px;
+	height: 40px;
 	margin: 0px auto;
-	padding: 20px;
+	padding: 5px;
 	position: relative;
 }
 
@@ -50,7 +50,9 @@ th {
 .showmsg p b {
 	color: crimson;
 }
-
+.showmsg h3 {
+width:fit-content;
+}
 #room_number {
 	text-align-last: center;
 	border-radius: 5px;
@@ -74,12 +76,11 @@ th {
 	width: fit-content;
 	padding-left: 10px;
 }
-.member-update .update-display-div {
-display:inline;
-}
+
 .mbpicdiv {
-height:250px;
+	height: 250px;
 }
+
 img {
 	max-height: 100%;
 	border-radius: 10px;
@@ -89,7 +90,7 @@ img {
 <body>
 	<div>
 		<div class="showmsg">
-			<h3 class="">
+			<h3>
 				<%
 					String msg = (String) request.getAttribute("msg");
 				if (msg != null) {
@@ -149,7 +150,7 @@ img {
 		</div>
 	</div>
 	<%-- <%@ include file="/backend/page2.file"%> --%>
-	<div class="display-hide member-info">
+	<div class="info-display member-info">
 		<div class="close-icon">
 			<i class="fas fa-times icon"></i>
 		</div>
@@ -188,10 +189,10 @@ img {
 			</div>
 		</div>
 	</div>
-
-	<form class="display-hide member-update" method="post" enctype="multipart/form-data"
-		action="${pageContext.request.contextPath}/MembersServlet">
-		<div class="update-display-div">
+	<!-- Update display -->
+	<div class="update-display">
+		<form method="post" class="update-form" enctype="multipart/form-data"
+			action="${pageContext.request.contextPath}/MembersServlet">
 			<div class="close-icon">
 				<i class="fas fa-times icon"></i>
 			</div>
@@ -199,45 +200,42 @@ img {
 				會員編號：<b id="update-mbID"></b>
 			</h3>
 			<label for="update-mbname">
-				<p>會員姓名</p> 
-				<input type="text" name="update-mbname" id="update-mbname" class="rm-input" max="9" min="1" autocomplete="off" required />
-			</label>
-			
-			<label for="update-mbname">
-				<p>會員生日</p> 
-				<input type="date" name="update-mbbd" id="update-mbbd" class="rm-input" max="9" min="1" autocomplete="off" required />
-			</label>
-			
-			<label for="update-mbphone">
-				<p>聯絡號碼</p> 
-				<input type="text" name="update-mbphone" id="update-mbphone" class="rm-input" max="9" min="1" autocomplete="off" required />
-			</label>
-			
-			<label for="update-mbemail">
-				<p>電子信箱</p> 
-				<input type="email" name="update-mbemail" id="update-mbemail" class="rm-input" max="9" min="1" autocomplete="off" required />
-			</label> 
-			<label for="update-mbcity">
-				<p>居住縣市</p> 
-				<input type="text" name="update-mbcity" id="update-mbcity" class="rm-input" max="9" min="1" autocomplete="off" required />
-			</label> 
-			<label for="update-mbtown">
-				<p>居住鄉鎮</p> 
-				<input type="text" name="update-mbtown" id="update-mbtown" class="rm-input" max="9" min="1" autocomplete="off" required />
-			</label> 
-			<label for="update-mbaddress">
-				<p>詳細地址</p> 
-				<input type="text" name="update-mbaddress" id="update-mbaddress" class="rm-input" max="9" min="1" autocomplete="off" required />
-			</label> 
-			<label for="update-mbpic">
-				<p>上傳個人圖片</p> 
-				<input type="file" name="update-mbpic" id="update-mbpic" class="rm-input" max="9" min="1" autocomplete="off"/>
-			</label> 
-				 <input name="action" value="update_member" style="display: none"> 
-				 <input id="update-mbid" name="update-mbid" type="text" style="display: none">
-			<button class="sendUpdateData" type="submit" style="width: 100%">更新資料</button>
-		</div>
-	</form>
+				<p>會員姓名</p> <input type="text" name="update-mbname"
+				id="update-mbname" class="rm-input" max="9" min="1"
+				autocomplete="off" required />
+			</label> <label for="update-mbname">
+				<p>會員生日</p> <input type="date" name="update-mbbd" id="update-mbbd"
+				class="rm-input" max="9" min="1" autocomplete="off" required />
+			</label> <label for="update-mbphone">
+				<p>聯絡號碼</p> <input type="text" name="update-mbphone"
+				id="update-mbphone" class="rm-input" max="9" min="1"
+				autocomplete="off" required />
+			</label> <label for="update-mbemail">
+				<p>電子信箱</p> <input type="email" name="update-mbemail"
+				id="update-mbemail" class="rm-input" max="9" min="1"
+				autocomplete="off" required />
+			</label> <label for="update-mbcity">
+				<p>居住縣市</p> <input type="text" name="update-mbcity"
+				id="update-mbcity" class="rm-input" max="9" min="1"
+				autocomplete="off" required />
+			</label> <label for="update-mbtown">
+				<p>居住鄉鎮</p> <input type="text" name="update-mbtown"
+				id="update-mbtown" class="rm-input" max="9" min="1"
+				autocomplete="off" required />
+			</label> <label for="update-mbaddress">
+				<p>詳細地址</p> <input type="text" name="update-mbaddress"
+				id="update-mbaddress" class="rm-input" max="9" min="1"
+				autocomplete="off" required />
+			</label> <label for="update-mbpic">
+				<p>上傳個人圖片</p> <input type="file" name="update-mbpic"
+				id="update-mbpic" class="rm-input" max="9" min="1"
+				autocomplete="off" />
+			</label> <input name="action" value="update_member" style="display: none">
+			<input id="update-mbid" name="update-mbid" type="text"
+				style="display: none">
+			<button class="send-data" type="submit" style="width: 100%">更新資料</button>
+		</form>
+	</div>
 	<script src="${pageContext.request.contextPath}/js/member-backend.js"></script>
 </body>
 </html>

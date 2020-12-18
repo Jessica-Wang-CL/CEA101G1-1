@@ -6,61 +6,39 @@
 <meta charset="UTF-8">
 <title>新增房型</title>
 </head>
-<style>
-#preview {
-	height: 300px;
-	width: 80%;
-	border: 1px solid #495464;
-	margin: 0 auto;
-	display: inline-flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	overflow: scroll;
-	justify-content: center;
-}
-
-img {
-	width: 200px;
-	margin: 5px;
-	border: 2px solid transparent;
-}
-
-.previewImg {
-	
-}
-</style>
 <body>
 	<form method="post" id="rmtypeform" enctype="multipart/form-data">
-		<div class="insert-rm-type">
-			<label for="rm_type"><p>房型編號</p> <input type="text"
-				name="rm_type" class="rm-input" id="rm_type" pattern="\d*"
-				maxlength="1" autocomplete="off" placeholder="請選擇1-9的數字" required /></label>
-			<label for="type_name"><p>房型名稱</p> <input type="text"
-				name="type_name" class="rm-input" id="type_name" maxlength="10"
-				autocomplete="off" required /></label> <label for="rm_price"><p>房型價格</p>
-				<input type="text" name="rm_price" class="rm-input" pattern="\d*"
-				id="rm_price" maxlength="10" autocomplete="off" required /></label> <label
-				for="rm_capacity"><p>最大入住人數</p> <select name="rm_capacity"
+		<div class="insert">
+			<label for="rm_type">房型編號</label> <input type="text" name="rm_type"
+				class="rm-input" id="rm_type" pattern="\d*" maxlength="1"
+				autocomplete="off" placeholder="請選擇1-9的數字" required /> <label
+				for="type_name">房型名稱</label> <input type="text" name="type_name"
+				class="rm-input" id="type_name" maxlength="20" autocomplete="off"
+				required /> <label for="type_eng_name">英文名稱</label> <input
+				type="text" name="type_eng_name" class="rm-input" id="type_eng_name"
+				maxlength="10" autocomplete="off" required /> <label for="rm_price">房型價格</label>
+			<input type="text" name="rm_price" class="rm-input" pattern="\d*"
+				id="rm_price" maxlength="10" autocomplete="off" required /> <label
+				for="rm_capacity">最大入住人數</label> <select name="rm_capacity"
 				class="rm-select" id="rm_capacity" required>
-					<option value="2">2</option>
-					<option value="4">4</option>
-					<option value="6">6</option>
-			</select></label> <label for="rm_info"><p>客房介紹</p> <textarea name="rm_info"
-					class="rm-input" id="rm_info" maxlength="500" placeholder="最多500字"
-					required></textarea> </label> <label for="pic-upload"><p>上傳客房照片</p>
-				<div class="pic-upload" name="pic-upload" for="rm-pic">
-					<h6>
-						<i class="icon fas fa-cloud-upload-alt"></i>上傳照片
-					</h6>
-					<input type="file" accept="image/*" name="rm_pic" class="rm-input"
-						id="rm_pic" multiple />
-				</div></label> <input name="action" value="insert_rm_type"
-				style="visibility: hidden" /> <label for="preview"
-				style="text-align: center">上傳圖片預覽</label>
-			<div id="preview" namem="preview"></div>
+				<option value="2">2</option>
+				<option value="4">4</option>
+				<option value="6">6</option>
+			</select> <label for="rm_info_title">內容標題</label> <input name="rm_info_title"
+				class="rm-input" id="rm_info_title" maxlength="40"
+				placeholder="輸入40字以內標題" required> <label for="rm_info">介紹內容</label>
+			<textarea name="rm_info" class="rm-input" id="rm_info"
+				maxlength="500" placeholder="最多500字" required></textarea>
+			<div class="pic-upload">
+				<h6>
+					<i class="icon fas fa-cloud-upload-alt"></i>上傳照片
+				</h6>
+				<input type="file" accept="image/*" name="rm_pic" class="upload-pic" multiple />
+			</div>
+			<div class="preview"></div>
 		</div>
-
-		<button type="submit" class="sendRmTypeData">確認送出</button>
+		<input name="action" value="insert_rm_type" style="display: none" />
+		<button type="submit" class="send-data">確認送出</button>
 	</form>
 
 	<script>
@@ -101,38 +79,30 @@ img {
                 };
                 xhr.send(data);
             });
-            
-            var myFile = document.getElementById("rm_pic");
-            var filename = "";
-            var content = document.getElementById("preview-display");
-			var thefiles;
-            myFile.addEventListener("change", function () { //預覽要上傳的照片
-            	 let inputfiles = document.getElementById("rmpic");
-                if (this.files) {
-                    thefiles = this.files;
-                    for (let i = 0; i < thefiles.length; i++) {
-                        if (thefiles[i].type.indexOf("image") >= 0) {
+            //General Upload Pic Preview js
+            let upload = $(".upload-pic");
+            upload.change(function(){
+            	if (this.files) {
+                    files = this.files;
+                    let preview = $(this).parents(".pic-upload").next();
+                    for (let i = 0; i < files.length; i++) {
+                        if (files[i].type.indexOf("image") >= 0) {
                             let reader = new FileReader();
-							
                             reader.addEventListener("load", (ex) => {
                                 let div = document.createElement("div");
                                 let img = document.createElement("img");
-                                let checkbox = document.createElement("checkbox")
                                 img.src = ex.target.result;
-                                preview.append(div);
+                                img.classList.add("previewImg");
                                 div.append(img);
-                                
+                                preview.append(div);
                             });
-                            reader.readAsDataURL(thefiles[i]);
-                           
+                            reader.readAsDataURL(files[i]);
                         } else {
                             window.close();
                         }
                     }
                 }
-            });
-            
-            
+            })
 		});
         </script>
 </body>

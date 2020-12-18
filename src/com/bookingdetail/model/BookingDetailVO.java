@@ -1,6 +1,8 @@
 package com.bookingdetail.model;
 
-public class BookingDetailVO {
+import java.io.Serializable;
+
+public class BookingDetailVO implements Serializable {
 	private String bk_no;
 	private String rm_type;
 	private Integer rm_price;

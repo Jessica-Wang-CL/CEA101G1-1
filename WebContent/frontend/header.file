@@ -1,0 +1,55 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+	<header class="header-section">
+		<div class="menu-item">
+			<div class="nav-menu">
+				<nav class="mainmenu">
+					<ul class="mainmenu-row">
+					<li  class="nav-list"><a href="#" class="nav-evnet">最新消息</a></li>
+						<li class="nav-list"><a class="nav-event">住客專區</a>
+							<ul class="dropdown">
+								<li><a href="#">活動報名</a></li>
+								<li><a href="#">預約服務</a></li>
+								<li><a href="#">訂購餐點</a></li>
+							</ul></li>
+						<li  class="nav-list"><a href="#" class="nav-evnet">戴蒙商城</a></li>
+						<div class="logobox">
+							<a href="${pageContext.request.contextPath}/frontend/index.jsp"><img
+								src="${pageContext.request.contextPath}/img/logo.png" alt="" />
+							</a>
+						</div>
+						<li  class="nav-list"><a class="nav-event"
+							href="${pageContext.request.contextPath}/frontend/rooms/rooms.jsp">客房</a>
+							<ul class="dropdown">
+								<li><a href="#">戴蒙經典房</a></li>
+								<li><a href="#">豪華蜜月房</a></li>
+								<li><a href="#">奢華海景房</a></li>
+								<li><a href="#">波賽頓套房</a></li>
+								<li><a href="#">公共空間</a></li>
+							</ul></li>
+						<li  class="nav-list"><a class="nav-event" href="./pages.html">精彩活動</a>
+							<ul class="dropdown">
+								<li><a href="#">陸上活動</a></li>
+								<li><a href="#">海上活動</a></li>
+								<li><a href="#">網紅行程</a></li>
+							</ul></li>
+						<li class="nav-list"><a class="nav-event"> <c:choose>
+									<c:when test="${member != null}">${member.mb_name}</a>
+							<ul class="dropdown">
+								<li><a href="#">個人檔案</a></li>
+								<li><a href="#">我的假期</a></li>
+								<li><a href="#">歷史訂單</a></li>
+								<li><a
+									href="${pageContext.request.contextPath}/MembersServlet?mb_email=${member.mb_email}&action=member-logout&location=${pageContext.request.requestURI}">登出</a></li>
+							</ul></li>
+						</c:when>
+						<c:otherwise>
+							<i class="fas fa-user-circle log-in"></i>
+							</a>
+						</c:otherwise>
+						</c:choose>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</header>

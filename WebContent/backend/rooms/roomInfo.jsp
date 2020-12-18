@@ -4,31 +4,11 @@
 <%@ page import="com.rooms.model.*"%>
 <%@ page import="java.util.List"%>
 <%@ page import="com.roomtype.model.*"%>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport"
-	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0" />
-<meta http-equiv="X-UA-Compatible" content="ie=edge" />
-<!-- Bootstrap -->
-<link rel="stylesheet"
-	href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
-	integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p"
-	crossorigin="anonymous" />
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/bootstrap.min.css" />
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/backend.css" />
+<%@ include file="/backend/backend_header.file" %> <!-- 加入常用 css -->
 <title>客房管理</title>
-<script src="${pageContext.request.contextPath}/js/jquery-3.5.1.min.js"></script>
 </head>
-<style>
-.showAllRooms, .addRoomPic{
-height:90vh
-}
-</style>
 <body>
+<%@ include file="/backend/backend_sidebar.file" %>
 	<section class="wrapper">
 		<ul class="tabs">
 			<li class="active">客房查詢</li>
@@ -38,7 +18,7 @@ height:90vh
 		<ul class="tab__content">
 			<li class="active">
 				<div class="content__wrapper">
-					<div class="showAllRooms">
+					<div class="table-wrapper">
 						<jsp:include page="showAllRooms.jsp" />
 					</div>
 
@@ -46,19 +26,12 @@ height:90vh
 			</li>
 			<li>
 				<div class="content__wrapper">
-					<div class="addRoomPic">
 						<jsp:include page="addRoom.jsp" />
-					</div>
-
 				</div>
 			</li>
 		</ul>
 	</section>
-
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	<%@ include file="/backend/backend_footer.file" %> <!-- 加入常用 js -->
 	<script src="${pageContext.request.contextPath}/js/backend.js"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
-
 </body>
 </html>

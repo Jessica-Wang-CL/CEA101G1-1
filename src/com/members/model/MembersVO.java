@@ -1,8 +1,9 @@
 package com.members.model;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class MembersVO {
+public class MembersVO implements Serializable {
 	private String mb_id;
 	private String mb_name;
 	private String mb_acc;

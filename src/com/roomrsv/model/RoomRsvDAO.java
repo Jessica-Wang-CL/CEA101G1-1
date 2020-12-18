@@ -28,7 +28,8 @@ public class RoomRsvDAO implements RoomRsvDAO_interface {
 	private static final String CREATERSVDATE = "INSERT INTO ROOM_RSV (RSV_DATE, RM_TYPE, RM_LEFT) VALUES (?, ?, ?)";
 	private static final String UPDATE = "UPDATE ROOM_RSV SET RM_TYPE = ?, RM_LEFT =? WHERE RSV_DATE = ?";
 	private static final String DELETE = "DELETE FROM ROOM_RSV WHERE RSV_DATE = ?";
-	private static final String GETONEBYDATE = "SELECT * FROM ROOM_RSV WHERE RSV_DATE = ?";
+	private static final String GETONEBYDATENRMTYPE = "SELECT * FROM ROOM_RSV WHERE RSV_DATE = ? AND RM_TYPE = ?";
+	private static final String GETONEDAYBYDATE = "SELECT * FROM ROOM_RSV WHERE RSV_DATE = ?";
 	private static final String GETALL = "SELECT * FROM ROOM_RSV ORDER BY RSV_DATE";
 	private static final String GETALLBYRMTYPE = "SELECT * FROM ROOM_RSV WHERE RM_TYPE = ? ORDER BY RSV_DATE";
 	
@@ -129,7 +130,56 @@ public class RoomRsvDAO implements RoomRsvDAO_interface {
 			}
 		}
 	}
+	
+	@Override
+	public RoomRsvVO getOneByDateNRmType(Date rsvDate, String rm_type) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		RoomRsvVO rsvvo = new RoomRsvVO();
+		try {
+			conn = ds.getConnection();
+			pstmt = conn.prepareStatement(GETONEBYDATENRMTYPE);
+			pstmt.setDate(1, rsvDate);
+			pstmt.setString(2, rm_type);
+			rs = pstmt.executeQuery();
 
+			while(rs.next()) {
+				rsvvo = new RoomRsvVO();
+				rsvvo.setRsv_date(rs.getDate("RSV_DATE"));
+				rsvvo.setRm_type(rs.getString("RM_TYPE"));
+				rsvvo.setRm_left(rs.getInt("RM_LEFT"));
+			}
+			
+			
+		} catch (SQLException e) {
+			throw new RuntimeException("A database error occured. " + e.getMessage());
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException se) {
+					se.printStackTrace(System.err);
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace(System.err);
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace(System.err);
+				}
+			}
+		}
+		return rsvvo;
+	}
+	
 	@Override
 	public List<RoomRsvVO> getAll() {
 		Connection conn = null;
@@ -177,22 +227,26 @@ public class RoomRsvDAO implements RoomRsvDAO_interface {
 	}
 
 	@Override
-	public RoomRsvVO getOneByDate(Date rsvDate) {
+	public List<RoomRsvVO> getOneDayByDate(Date rsvDate) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		RoomRsvVO rsvvo = new RoomRsvVO();
+		List<RoomRsvVO> roomRsv = new ArrayList<>();
 		try {
 			conn = ds.getConnection();
-			pstmt = conn.prepareStatement(GETONEBYDATE);
+			pstmt = conn.prepareStatement(GETONEDAYBYDATE);
 			pstmt.setDate(1, rsvDate);
 			rs = pstmt.executeQuery();
 
-			rs.next();
-			rsvvo = new RoomRsvVO();
-			rsvvo.setRsv_date(rs.getDate("RSV_DATE"));
-			rsvvo.setRm_type(rs.getString("RM_TYPE"));
-			rsvvo.setRm_left(rs.getInt("RM_LEFT"));
+			while(rs.next()) {
+				RoomRsvVO rsvvo = new RoomRsvVO();
+				rsvvo = new RoomRsvVO();
+				rsvvo.setRsv_date(rs.getDate("RSV_DATE"));
+				rsvvo.setRm_type(rs.getString("RM_TYPE"));
+				rsvvo.setRm_left(rs.getInt("RM_LEFT"));
+				roomRsv.add(rsvvo);
+			}
+			
 			
 		} catch (SQLException e) {
 			throw new RuntimeException("A database error occured. " + e.getMessage());
@@ -219,7 +273,7 @@ public class RoomRsvDAO implements RoomRsvDAO_interface {
 				}
 			}
 		}
-		return rsvvo;
+		return roomRsv;
 	}
 
 	@Override

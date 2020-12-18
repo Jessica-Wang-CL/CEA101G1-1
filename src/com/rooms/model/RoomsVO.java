@@ -1,6 +1,9 @@
 package com.rooms.model;
 
-public class RoomsVO {
+import java.io.Serializable;
+
+public class RoomsVO implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private String rm_no;
 	private String rm_type;
 	private String rm_status;

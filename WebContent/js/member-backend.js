@@ -1,5 +1,5 @@
 $(".show-memberdetail").click(function () {   //開啟詳情視窗
-    $(".member-info").addClass("display-show");
+    $(".info-display").addClass("display-show");
     let tr = $(this).parents("tr");
     let children = tr.children();
     $("#detail-mbid").text(children.eq(0).text());
@@ -16,7 +16,7 @@ $(".show-memberdetail").click(function () {   //開啟詳情視窗
 });
 
 $(".show-memberupdate").click(function () {   //開啟修改視窗
-    $(".member-update").addClass("display-show");
+    $(".update-display").addClass("display-show");
     let tr = $(this).parents("tr");
     let children = tr.children();
     $("#update-mbID").text(children.eq(0).text());
@@ -29,9 +29,8 @@ $(".show-memberupdate").click(function () {   //開啟修改視窗
 	$("#update-mbtown").val(tr.children(".mb_town").text());
 	$("#update-mbaddress").val(tr.children(".mb_address").text());
 });
-
+//關閉視窗
 $(".icon").click(function () {
-    //關閉修改視窗
     let display = $(this).parents(".display-show");
     display.removeClass("display-show");
     $("#showroom").attr("src", "");

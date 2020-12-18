@@ -1,8 +1,9 @@
 package com.pickup.model;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class PickupVO {
+public class PickupVO implements Serializable {
 	private String pkup_no;
 	private String chop_no;
 	private String bk_no;

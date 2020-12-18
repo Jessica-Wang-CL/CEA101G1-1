@@ -2,38 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="com.members.model.*"%>
-<%
-	String sessionID = null;
-String mb_email = null;
-MembersVO member = null;
-member = (MembersVO) session.getAttribute("member");
-
-if (member == null) {
-	Cookie[] cookieList = request.getCookies();
-	if (cookieList != null) {
-		for (int i = 0; i < cookieList.length; i++) {
-	Cookie theCookie = cookieList[i];
-	if (theCookie.getName().equals("diamond-session")) {
-		sessionID = theCookie.getValue();
-		application.getAttribute("logins");
-	}
-	if (theCookie.getName().equals("dmUser")) {
-		mb_email = theCookie.getValue();
-	}
-		}
-	}
-	if (sessionID != null && mb_email != null) {
-		MembersService memberSvc = new MembersService();
-		member = memberSvc.getOneByMbEmail(mb_email);
-		session.setAttribute("member", member);
-	} else if (sessionID == null && mb_email != null) {
-		Cookie dmresort_user = new Cookie("diamond-session", session.getId());
-		dmresort_user.setMaxAge(24 * 60 * 60);
-		response.addCookie(dmresort_user);
-		pageContext.setAttribute("mb_email", mb_email);
-	}
-}
-%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -84,72 +52,15 @@ if (member == null) {
 </head>
 
 <body>
-
+<%@ include file="/frontend/login.file" %>
+<%@ include file="/frontend/loginbox.file" %>
 	<div id="preloder">
 		<img id="preloaderpic"
 			src="${pageContext.request.contextPath}/img/loading.png" />
 		<div class="loader"></div>
 	</div>
 
-	<div class="login-window-overlay"></div>
-
-	<div class="login-window hide-login-window">
-		<div class="cont">
-			<form id="login-form" method="POST"
-				action="<%=request.getContextPath()%>/MembersServlet">
-				<div class="login-form sign-in">
-					<h2>Welcome Back</h2>
-					<label> <span><i class="fas fa-user-circle"></i></span> 
-					<input type="email" id="mb_email" name="mb_email" autocomplete="false" />
-					</label> 
-					<label> <span><i class="fas fa-key"></i></span> 
-					<input type="password" id="mb_pwd" name="mb_pwd" />
-					</label>
-					<p class="forgot-pass">
-						<a href="">忘記密碼?</a>
-					</p>
-					<input type="text" name="pass" value="pass" style="display: none;" />
-					<input type="text" name="action" value="member-login"
-						style="display: none;" />
-					<button type="submit" class="submit login-button">登入</button>
-				</div>
-			</form>
-			<div class="sub-cont">
-				<div class="img">
-					<div class="img__text m--up">
-						<h2>新訪客?</h2>
-						<p>加入戴蒙尊榮會員，開始享受您的奢華假期!</p>
-					</div>
-					<div class="img__text m--in">
-						<h2>會員？</h2>
-						<p>如果您已是會員，點選會員登入吧！We've missed you!</p>
-					</div>
-					<div class="img__btn">
-						<span class="m--up">註冊會員</span> <span class="m--in">會員登入</span>
-					</div>
-				</div>
-				<form id="registration-form"
-					action="${pageContext.request.contextPath}/frontend/members/registration.jsp" method="POST">
-					<div class="form sign-up">
-						<h2>期待您的加入</h2>
-						<label> <span>姓(Last Name)</span> <input type="text"
-							name="temp-lname" autocomplete="false" maxlength="20" required />
-						</label> <label> <span>名(First Name)</span> <input type="text"
-							name="temp-fname" autocomplete="false" maxlength="20" required />
-						</label> <label> <span>EMAIL</span> <input type="email"
-							id="temp-email" name="temp-email"
-							pattern="^.+[\x40]{1}.+[.]{1}.*$" autocomplete="false" required />
-						</label> <label> <span>密碼</span> <input type="password"
-							id="temp-password" name="temp-password" required />
-						</label> <label> <span>確認密碼</span> <input type="password"
-							id="temp-confirm-password" name="temp-confirm-password" required />
-						</label>
-						<button type="submit" class="submit login-button">立即註冊</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
+	
 
 
 	<div class="offcanvas-menu-overlay"></div>
@@ -199,72 +110,7 @@ if (member == null) {
 	</div>
 
 
-	<header class="header-section">
-		<div class="menu-item">
-			<div class="row">
-				<div class="my-nav col-5">
-					<div class="nav-menu">
-						<nav class="mainmenu">
-							<ul class="mainmenu-left row">
-								
-								<li class="col-6"><a class="nav-event">住客專區</a>
-									<ul class="dropdown">
-										<li><a href="#">活動報名</a></li>
-										<li><a href="#">預約服務</a></li>
-										<li><a href="#">訂購餐點</a></li>
-									</ul></li>
-								<li class="col-6"><a href="#" class="nav-evnet">戴蒙商城</a>
-								</li>
-							</ul>
-						</nav>
-					</div>
-				</div>
-				<div class="col-lg-2 col-md-2 col-sm-12 logobox">
-					<a href="${pageContext.request.contextPath}/frontend/index.jsp"><img
-						src="${pageContext.request.contextPath}/img/logo.png" alt="" /> </a>
-				</div>
-				<div class="my-nav col-5">
-					<div class="nav-menu">
-						<nav class="mainmenu">
-							<ul class="mainmenu-right row">
-								<li class="col-4"><a class="nav-event"
-									href="${pageContext.request.contextPath}/frontend/rooms/rooms.jsp">客房</a>
-									<ul class="dropdown">
-										<li><a href="#">戴蒙經典房</a></li>
-										<li><a href="#">豪華蜜月房</a></li>
-										<li><a href="#">奢華海景房</a></li>
-										<li><a href="#">波賽頓套房</a></li>
-										<li><a href="#">公共空間</a></li>
-									</ul></li>
-								<li class="col-4"><a class="nav-event" href="./pages.html">精彩活動</a>
-									<ul class="dropdown">
-										<li><a href="#">陸上活動</a></li>
-										<li><a href="#">海上活動</a></li>
-										<li><a href="#">網紅行程</a></li>
-									</ul></li>
-								<li class="col-4"><a class="nav-event"> <c:choose>
-											<c:when test="${member != null}">${member.mb_name}</a>
-									<ul class="dropdown">
-										<li><a href="#">個人檔案</a></li>
-										<li><a href="#">我的假期</a></li>
-										<li><a href="#">歷史訂單</a></li>
-										<li><a
-											href="${pageContext.request.contextPath}/MembersServlet?mb_email=${member.mb_email}&action=member-logout">登出</a></li>
-									</ul></li>
-								</c:when>
-								<c:otherwise>
-									<i class="fas fa-user-circle log-in"></i>
-									</a>
-								</c:otherwise>
-								</c:choose>
-								</li>
-							</ul>
-						</nav>
-					</div>
-				</div>
-			</div>
-		</div>
-	</header>
+	<%@ include file="/frontend/header.file" %>
 
 
 	<section class="hero-section">
@@ -326,7 +172,7 @@ if (member == null) {
 						</select>
 					</div>
 				</div>
-				<div class="check-vacant-button">
+				<div class="check-vacant-button box">
 					<button type="submit" id="check-room" class="vacant-check">空房查詢</button>
 				</div>
 			</div>

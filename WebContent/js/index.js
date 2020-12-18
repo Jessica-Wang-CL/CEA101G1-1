@@ -3,11 +3,15 @@ $(document).ready(function() {
 	window.addEventListener("scroll", function() {
 		let opac = "rgba(34, 39, 54," + (window.scrollY / 620).toString() + ")";
 		$(".menu-item").css("background-color", opac);
-		console.log();
-		if ($(".booking").position().top > window.innerHeight) {
-			$(".booking").css("background-color", "rgb(34, 39, 54)");
+		let book = $(".booking").eq(0);
+		if (window.pageYOffset + book.innerHeight()*2 + 10 > window.innerHeight) {
+			book.css("background-color", "rgb(34, 39, 54)");
+			let top = window.innerHeight - book.innerHeight();
+			book.css("position","sticky");
+			book.css("top", top + "px");
 		} else {
 			$(".booking").css("background-color", "rgba(0, 0, 0, 0)");
+			book.css("position","static");
 		}
 	});
 	//滑鼠到頂層導覽變色
@@ -71,7 +75,10 @@ $(document).ready(function() {
 	};
 	//將預設語系設定為中文
 	$.datepicker.setDefaults($.datepicker.regional["zh-TW"]);
-
+	 /*------------------
+        Nice Select
+    -------------------*/
+	$("select").niceSelect();
 
     /*------------------
         Background Set

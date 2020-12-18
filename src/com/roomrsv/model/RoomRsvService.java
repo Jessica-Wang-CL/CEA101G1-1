@@ -26,8 +26,12 @@ public class RoomRsvService {
 		dao.delete(rsvDate);
 	}
 	
-	public RoomRsvVO getOneByDate(Date rsvDate) {
-		return dao.getOneByDate(rsvDate);
+	public RoomRsvVO getOneByDateNRmType(Date rsvDate, String rm_type) {
+		return dao.getOneByDateNRmType(rsvDate, rm_type);
+	}
+	
+	public List<RoomRsvVO> getOneByDate(Date rsvDate) {
+		return dao.getOneDayByDate(rsvDate);
 	}
 	
 	public List<RoomRsvVO> getAll() {

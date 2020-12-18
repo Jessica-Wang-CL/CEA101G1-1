@@ -10,41 +10,37 @@ RoomPicService rmpicSvc = new RoomPicService();
 List<RoomPicVO> rmpics = rmpicSvc.getAllByRoomType(rmtype);
 pageContext.setAttribute("rmpics", rmpics);
 %>
-<!DOCTYPE html>
-<html>
-<head>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/bootstrap.min.css" />
+<%@ include file="/backend/backend_header.file" %>
 <title>房型圖庫</title>
 <style>
+
 img {
 	width: 400px;
 	border-radius: 10px;
 	margin: 5px auto;
 	border: 2px solid transparent;
 }
-
 .add-border {
 	border: 2px solid red;
 }
-
 div {
 	padding: 5px;
 }
-
 .wrapper {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
 	flex-wrap: wrap;
+	margin: 0 auto;
+	padding:0px;
+	padding-bottom:60px;
 }
-
 .removepic:hover {
     background-color: gold;
 }
 .removepic {
 background-color: #f4f4f2;
-	width:101%;
+	width:90%;
 	height:50px;
 	position:fixed;
 	bottom:0px;
@@ -70,7 +66,6 @@ background-color: #f4f4f2;
 		<button class="removepic">移除圖片</button>
 		
 	</div>
-	<script src="${pageContext.request.contextPath}/js/jquery-3.5.1.min.js"></script>
 	<script>
 		$("img").click(function() {
 			if ($(this).hasClass("add-border")) {

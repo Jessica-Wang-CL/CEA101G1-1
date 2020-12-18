@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%  
-String temp_lname = request.getParameter("temp-lname");
-String temp_fname = request.getParameter("temp-fname");
-String temp_email = request.getParameter("temp-email");
-String temp_password = request.getParameter("temp-password");
-String temp_confirm_password = request.getParameter("temp-confirm-password");
+pageContext.setAttribute("templname", request.getParameter("temp-lname"));
+System.out.print(request.getParameter("temp-lname"));
+pageContext.setAttribute("tempfname", request.getParameter("temp-fname"));
+pageContext.setAttribute("tempemail", request.getParameter("temp-email"));
+pageContext.setAttribute("temppassword",request.getParameter("temp-password"));
+pageContext.setAttribute("tempconfirmpassword",request.getParameter("temp-confirm-password"));
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -157,14 +158,7 @@ String temp_confirm_password = request.getParameter("temp-confirm-password");
 					<div class="nav-menu">
 						<nav class="mainmenu">
 							<ul class="mainmenu-right row">
-								<li class="col-4"><a class="nav-event" href="./rooms.html">客房</a>
-									<ul class="dropdown">
-										<li><a href="#">戴蒙經典房</a></li>
-										<li><a href="#">豪華蜜月房</a></li>
-										<li><a href="#">奢華海景房</a></li>
-										<li><a href="#">波賽頓套房</a></li>
-										<li><a href="#">公共空間</a></li>
-									</ul></li>
+								<li class="col-4"><a class="nav-event" href="./rooms.html">海景套房</a>
 								<li class="col-4"><a class="nav-event" href="./pages.html">精彩活動</a>
 									<ul class="dropdown">
 										<li><a href="./room-details.html">陸上活動</a></li>
@@ -236,24 +230,24 @@ String temp_confirm_password = request.getParameter("temp-confirm-password");
 								<div class="form-card">
 									<h2 class="fs-title">個人基本資料:</h2>
 									<label class="fieldlabels">電子信箱(E-mail): <b>*</b></label> <input
-										type="text" id="mb_email" name="mb_email" value="<%=temp_email%>"
+										type="text" id="mb_email" name="mb_email" value="${tempemail}"
 										pattern="^.+[\x40]{1}.+[.]{1}.*$" placeholder="Email"
 										maxlength="50" required /> <label class="fieldlabels">密碼(Password):
 										英文大小寫至少一個，最少8碼<b>*</b>
 									</label> <input type="password" id="mb_pwd" name="mb_pwd"
-										placeholder="Password" minlength="8" pattern="[a-zA-Z0-9]{8,}" value="<%=temp_password%>"
+										placeholder="Password" minlength="8" pattern="[a-zA-Z0-9]{8,}" value="${temppassword}"
 										required /> <label class="fieldlabels confirm_laebl">確認密碼(Confirm
 										Password): <b>*</b>
 									</label> <input type="password" id="mb_cpwd" name="mb_cpwd"
-										placeholder="Confirm Password" value="<%=temp_confirm_password%>" required /> <label
+										placeholder="Confirm Password" value="${tempconfirmpassword}" required /> <label
 										class="fieldlabels">帳戶名稱(Acccount name): <b>*</b></label> <input
 										type="text" id="mb_acc" name="mb_acc"
 										placeholder="Account name" maxlength="20" required /> <label
 										class="fieldlabels">姓(Last Name): <b>*</b></label> <input
-										type="text" id="mb_lname" name="mb_lname" value="<%=temp_lname%>"
+										type="text" id="mb_lname" name="mb_lname" value="${templname}"
 										placeholder="First Name" maxlength="20" required /> <label
 										class="fieldlabels">名(First Name): <b>*</b></label> <input
-										type="text" id="mb_fname" name="mb_fname" value="<%=temp_fname%>"
+										type="text" id="mb_fname" name="mb_fname" value="${tempfname}"
 										placeholder="Last Name" maxlength="50" required /> <label
 										class="fieldlabels">出生日期(Birthday): <b>*</b></label> <input
 										type="text" id="mb_bd" name="mb_bd"

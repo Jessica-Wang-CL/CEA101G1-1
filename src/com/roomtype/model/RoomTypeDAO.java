@@ -20,8 +20,8 @@ public class RoomTypeDAO implements RoomTypeDAO_interface {
 		}
 	}
 
-	private static final String INSERT = "INSERT INTO ROOM_TYPE (RM_TYPE, TYPE_NAME, RM_PRICE, RM_CAPACITY, RM_INFO) VALUES (?, ?, ?, ?, ?)";
-	private static final String UPDATE = "UPDATE ROOM_TYPE SET TYPE_NAME = ?, RM_PRICE = ?, RM_CAPACITY = ?, RM_INFO = ? WHERE RM_TYPE = ?";
+	private static final String INSERT = "INSERT INTO ROOM_TYPE (RM_TYPE, TYPE_NAME, TYPE_ENG_NAME, RM_PRICE, RM_CAPACITY, RM_INFO_TITLE, RM_INFO) VALUES (?, ?, ?, ?, ?, ?, ?)";
+	private static final String UPDATE = "UPDATE ROOM_TYPE SET TYPE_NAME = ?, TYPE_ENG_NAME = ?, RM_PRICE = ?, RM_CAPACITY = ?, RM_INFO_TITLE = ?, RM_INFO = ? WHERE RM_TYPE = ?";
 	private static final String UPDATEQTY = "UPDATE ROOM_TYPE SET RM_QTY = ? WHERE RM_TYPE = ?";
 	private static final String DELETE = "DELETE FROM ROOM_TYPE WHERE RM_TYPE = ?";
 	private static final String GETALLROOMTYPE = "SELECT * FROM ROOM_TYPE ORDER BY RM_TYPE";
@@ -37,12 +37,14 @@ public class RoomTypeDAO implements RoomTypeDAO_interface {
 			pstmt = conn.prepareStatement(INSERT);
 			pstmt.setString(1, rmtypevo.getRm_type());
 			pstmt.setString(2, rmtypevo.getType_name());
-			pstmt.setInt(3, rmtypevo.getRm_price());
-			pstmt.setInt(4, rmtypevo.getRm_capacity());
+			pstmt.setString(3, rmtypevo.getType_eng_name());
+			pstmt.setInt(4, rmtypevo.getRm_price());
+			pstmt.setInt(5, rmtypevo.getRm_capacity());
+			pstmt.setString(6, rmtypevo.getRm_info_title());
 			if (rmtypevo.getRm_info() == "") {
-				pstmt.setString(5, "待填入資料");
+				pstmt.setString(7, "待填入資料");
 			} else {
-				pstmt.setString(5, rmtypevo.getRm_info());
+				pstmt.setString(7, rmtypevo.getRm_info());
 			}
 
 			pstmt.executeUpdate();
@@ -78,14 +80,16 @@ public class RoomTypeDAO implements RoomTypeDAO_interface {
 			pstmt = conn.prepareStatement(UPDATE);
 
 			pstmt.setString(1, rmtypevo.getType_name());
-			pstmt.setInt(2, rmtypevo.getRm_price());
-			pstmt.setInt(3, rmtypevo.getRm_capacity());
+			pstmt.setString(2, rmtypevo.getType_eng_name());
+			pstmt.setInt(3, rmtypevo.getRm_price());
+			pstmt.setInt(4, rmtypevo.getRm_capacity());
+			pstmt.setString(5, rmtypevo.getRm_info_title());
 			if (rmtypevo.getRm_info() == "") {
-				pstmt.setString(4, "待填入資料");
+				pstmt.setString(6, "待填入資料");
 			} else {
-				pstmt.setString(4, rmtypevo.getRm_info());
+				pstmt.setString(6, rmtypevo.getRm_info());
 			}
-			pstmt.setString(5, rmtypevo.getRm_type());
+			pstmt.setString(7, rmtypevo.getRm_type());
 			pstmt.executeUpdate();
 
 		} catch (SQLException e) {
@@ -121,11 +125,17 @@ public class RoomTypeDAO implements RoomTypeDAO_interface {
 			ResultSet rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				RoomTypeVO rmtypevo = new RoomTypeVO(rs.getString("rm_type"), rs.getString("type_name"),
-				rs.getInt("rm_qty"), rs.getInt("rm_price"), rs.getInt("rm_capacity"), rs.getString("rm_info"));
+				RoomTypeVO rmtypevo = new RoomTypeVO();
+				rmtypevo.setRm_type(rs.getString("RM_TYPE")); 
+				rmtypevo.setType_name(rs.getString("TYPE_NAME"));
+				rmtypevo.setType_eng_name(rs.getString("TYPE_ENG_NAME"));
+				rmtypevo.setRm_qty(rs.getInt("RM_QTY"));
+				rmtypevo.setRm_price(rs.getInt("RM_PRICE"));
+				rmtypevo.setRm_capacity(rs.getInt("RM_CAPACITY"));
+				rmtypevo.setRm_info_title(rs.getString("RM_INFO_TITLE"));
+				rmtypevo.setRm_info(rs.getString("RM_INFO"));
 				rmtypeList.add(rmtypevo);
 			}
-
 		} catch (SQLException e) {
 			throw new RuntimeException("A database error occured. " + e.getMessage());
 		} finally {
@@ -216,10 +226,12 @@ public class RoomTypeDAO implements RoomTypeDAO_interface {
 			ResultSet rs = pstmt.executeQuery();
 			rs.next();
 			rmtypevo.setRm_type(rmtype);
+			rmtypevo.setType_eng_name(rs.getString("TYPE_ENG_NAME"));
 			rmtypevo.setRm_price(rs.getInt("RM_PRICE"));
 			rmtypevo.setRm_capacity(rs.getInt("RM_CAPACITY"));
 			rmtypevo.setRm_qty(rs.getInt("RM_QTY"));
 			rmtypevo.setRm_info(rs.getString("RM_INFO"));
+			rmtypevo.setRm_info_title(rs.getString("RM_INFO_TITLE"));
 			rmtypevo.setType_name(rs.getString("TYPE_NAME"));
 			
 		} catch (SQLException e) {

@@ -20,43 +20,43 @@ th {
 	position: sticky;
 	top: 0;
 }
-.roomtable table{
-margin: 0 auto;
-min-width:95%;
-}
-.roomtable thead th {
-position: sticky;
-}
+
 .roomtable {
-height: 80vh;
-overflow:scroll;
+	overflow: scroll;
+	max-height:75vh;
 }
+
 .showmsg {
 	width: 100%;
-	height: 60px;
+	height: 40px;
 	margin: 0px auto;
-	padding: 20px;
-	position:relative;
+	padding: 5px;
+	position: relative;
 }
+.msg {
+	width: fit-content;
+}
+
 .showmsg p {
-	position:absolute;
-	right:5vw;
-	bottom:0px;
-	
+	position: absolute;
+	right: 5vw;
+	bottom: 0px;
 }
+
 .showmsg p b {
-	color:crimson;
+	color: crimson;
 }
+
 #room_number {
-	text-align-last:center;
-	border-radius:5px;
+	text-align-last: center;
+	border-radius: 5px;
 }
 </style>
 </head>
 <body>
 	<div>
 		<div class="showmsg">
-			<h3 class="">
+			<h3 class="msg">
 				<%
 					String msg = (String) request.getAttribute("msg");
 				if (msg != null) {
@@ -64,13 +64,16 @@ overflow:scroll;
 				<%=msg%>
 				<%}%>
 			</h3>
-			<p class="roomtotal">當前查詢房間總數<b><%=roomsList.size()%></b></p>
+			<p class="roomtotal">
+				當前查詢房間總數<b><%=roomsList.size()%></b>
+			</p>
 		</div>
 		<div class="roomtable">
 			<table>
 				<thead class="firstTr">
 					<tr>
-						<th><input type="text" id="room_number" maxlength="3" placeholder="客房編號"></th>
+						<th><input type="text" id="room_number" maxlength="3"
+							placeholder="客房編號"></th>
 						<th><select id="room-type-select">
 								<option value="all" selected>全部房型</option>
 								<c:forEach var="rmtype" items="${rmtypeSvc.all}">
@@ -137,9 +140,8 @@ overflow:scroll;
 		</div>
 	</div>
 	<%-- <%@ include file="/backend/page2.file"%> --%>
-	<form class="update-display" method="post"
+	<form class="update-display update-form" method="post"
 		action="${pageContext.request.contextPath}/RoomsServlet">
-		<div class="update-display-div">
 			<div class="close-icon">
 				<i class="fas fa-times icon"></i>
 			</div>
@@ -159,8 +161,7 @@ overflow:scroll;
 			</select></label> <input name="action" value="update_room" style="display: none">
 			<input id="update-room" name="update-rm-no" type="text"
 				style="display: none">
-			<button class="updateRmData" type="submit" style="width: 100%">更新資料</button>
-		</div>
+			<button class="update-data" type="submit" style="width: 100%">更新資料</button>
 	</form>
 	<script>
 		$(".update").click(function() { //開啟修改視窗
@@ -188,22 +189,22 @@ overflow:scroll;
 			}
 			$("#update-rmstatus").val(status).change();
 		})
-		
+
 		$(".icon").click(function() { //關閉修改視窗
 			let display = $(this).parents(".display-show");
 			display.removeClass("display-show");
 			$("#showroom").attr("src", "");
 		})
-		
+
 		let roomTypeFilter = $("#room-type-select");
 		let roomStatusFilter = $("#room-status-select");
 		let currentTotal = parseInt($(".showmsg p b").text());
 		let allTr = $("tr");
-		
+
 		roomTypeFilter.change(filter);
 		roomStatusFilter.change(filter);
-		
-		$("#room_number").keyup(function(){
+
+		$("#room_number").keyup(function() {
 			let rmno = $("#room_number").val();
 			let count = 0;
 			for (let i = 1; i < allTr.length; i++) {
@@ -216,23 +217,21 @@ overflow:scroll;
 			}
 			$(".showmsg p b").text(currentTotal - count);
 		})
-		
-		function filter(){ 
+
+		function filter() {
 			let selected_val = roomTypeFilter.val();
 			let selected_val2 = roomStatusFilter.val();
-			if(selected_val2 === "all" && selected_val === "all") {
+			if (selected_val2 === "all" && selected_val === "all") {
 				allTr.show();
 				$(".showmsg p b").text(currentTotal);
 				return;
 			}
 			allTr.show();
 			let count = 0;
-			console.log("room_status:" + selected_val2)
-			console.log("room_type:" + selected_val)
-			
+
 			for (let i = 1; i < allTr.length; i++) {
-				if(selected_val === "all") {
-					if (!allTr.eq(i).children().hasClass(selected_val2)){
+				if (selected_val === "all") {
+					if (!allTr.eq(i).children().hasClass(selected_val2)) {
 						allTr.eq(i).hide();
 						count++;
 					}
@@ -245,7 +244,8 @@ overflow:scroll;
 					}
 					continue;
 				}
-				if(!allTr.eq(i).children().hasClass(selected_val2) || !allTr.eq(i).children().hasClass(selected_val)) {
+				if (!allTr.eq(i).children().hasClass(selected_val2)
+						|| !allTr.eq(i).children().hasClass(selected_val)) {
 					allTr.eq(i).hide();
 					count++;
 				}

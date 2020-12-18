@@ -49,12 +49,14 @@ public class RoomTypeServlet extends HttpServlet {
 					return;
 				}
 				String type_name = req.getParameter("type_name").trim();
+				String type_eng_name = req.getParameter("type_eng_name").trim();
 				Integer rm_price = new Integer(req.getParameter("rm_price"));
 				Integer rm_capacity = new Integer(req.getParameter("rm_capacity"));
-				String rm_info = req.getParameter("rm_info");
+				String rm_info_title = req.getParameter("rm_info_title").trim();
+				String rm_info = req.getParameter("rm_info").trim();
 
 				RoomPicService rmpicSvc = new RoomPicService();
-				rmtypeSvc.addRoomType(rm_type, type_name, rm_price, rm_capacity, rm_info);// 新增房型資料至資料庫
+				rmtypeSvc.addRoomType(rm_type, type_name, type_eng_name, rm_price, rm_capacity, rm_info_title, rm_info);// 新增房型資料至資料庫
 				Collection<Part> parts = req.getParts();
 				rmpicSvc.addRoomPic(rm_type, parts); // 如果有照片就上傳照片
 
@@ -70,13 +72,15 @@ public class RoomTypeServlet extends HttpServlet {
 			List<String> msgs = new ArrayList<>();
 			try {
 				String rm_type = req.getParameter("update-rmtype");
+				String type_eng_name = req.getParameter("update-typeengname").trim();
 				String type_name = req.getParameter("update-typename");
 				Integer rm_price = new Integer(req.getParameter("update-rmprice"));
 				Integer rm_capacity = new Integer(req.getParameter("update-rmcap"));
+				String rm_info_title = req.getParameter("update-rminfotitle").trim();
 				String rm_info = req.getParameter("update-rminfo");
 
 				RoomTypeService rmtypeSvc = new RoomTypeService();
-				rmtypeSvc.updateRoomType(rm_type, type_name, rm_price, rm_capacity, rm_info);
+				rmtypeSvc.updateRoomType(rm_type, type_name, type_eng_name, rm_price, rm_capacity, rm_info_title, rm_info);
 				msgs.add("更新成功");
 				req.setAttribute("msgs", msgs);
 				dispatcher.forward(req, res);
