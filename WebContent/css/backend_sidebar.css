@@ -36,6 +36,7 @@
     opacity: 0;
     background-color: #2a3750;
     transition: 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow:scroll;
 }
 .sidebar-content_show {
     left: 50px;

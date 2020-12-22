@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.*;
 
 public class BookingOrderVO implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private String bk_no;
 	private String mb_id;
 	private Date bk_date;
@@ -11,14 +12,14 @@ public class BookingOrderVO implements Serializable {
 	private Date dateOut;
 	private Date checkIn;
 	private Date checkOut;
-	private String od_status;
+	private String bk_status;
 	private Integer total_price;
 	
 	
 	
 	public BookingOrderVO() {};
 	
-	public BookingOrderVO(String bk_no, String mb_id, Date bk_date, Date dateIn, Date dateOut, String od_status, 
+	public BookingOrderVO(String bk_no, String mb_id, Date bk_date, Date dateIn, Date dateOut, String bk_status, 
 			Integer total_price) {
 		super();
 		this.bk_no = bk_no;
@@ -26,7 +27,7 @@ public class BookingOrderVO implements Serializable {
 		this.bk_date = bk_date;
 		this.dateIn = dateIn;
 		this.dateOut = dateOut;
-		this.od_status = od_status;
+		this.bk_status = bk_status;
 		this.total_price = total_price;
 	}
 
@@ -86,12 +87,12 @@ public class BookingOrderVO implements Serializable {
 		this.checkOut = checkOut;
 	}
 	
-	public String getOd_status() {
-		return od_status;
+	public String getBk_status() {
+		return bk_status;
 	}
 
-	public void setOd_status(String od_status) {
-		this.od_status = od_status;
+	public void setBk_status(String od_status) {
+		this.bk_status = od_status;
 	}
 
 	public Integer getTotal_price() {

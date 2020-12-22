@@ -1,5 +1,9 @@
 package com.bookingdetail.model;
 
-public class BookingDetailDAO_interface {
+import java.util.List;
 
+public interface BookingDetailDAO_interface {
+	public void insert(BookingDetailVO bkdetailvo);
+	public void update(BookingDetailVO bkdetailvo);
+	public List<BookingDetailVO> getAllByBkNo(String bk_no);
 }

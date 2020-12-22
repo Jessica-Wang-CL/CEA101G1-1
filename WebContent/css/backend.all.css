@@ -3,19 +3,32 @@
     padding: 0;
     margin: 0;
 }
+a {
+	text-decoration: none !important;
+}
+table a:hover {
+	color:#d9ecf2 !important;
+}
 body {
     font-family: "Open Sans", sans-serif;
     color: #50555a;
     padding:0px;
 }
+table {
+	width:100%;
+}
 th {
     padding: 5px 10px;
     background-color: black;
     color: white;
+	letter-spacing: 1px;
 }
 td {
-    padding: 10px;
+    padding: 5px;
     border: 2px solid white;
+}
+button:focus {
+	outline:none;
 }
 .odd {
     background-color: #e8e8e8;
@@ -31,10 +44,10 @@ input {
 }
 /* Tab */
 .wrapper {
-	padding-left:40px;
-    min-width: 500px;
-    max-width: 900px;
-    margin: 0px auto;
+	padding-left: 40px;
+    min-width: 900px;
+    max-width: 90vw;
+    margin: 0px auto 0px auto;
 }
 .tabs {
     display: table;
@@ -117,9 +130,9 @@ input {
     min-height: 80vh;
 }
 .table-wrapper {
-	width: fit-content;
+	width: 100%;
     margin: 0 auto;
-    padding: 20px; 
+    padding: 10px; 
 }
 /* album and update*/
 .text-color {
@@ -131,7 +144,10 @@ input {
 	display:flex;
 	flex-direction:column;
 	justify-content:space-around;
+	align-items: center;
 	text-align:center;
+	height:100%;
+	overflow:scroll;
 }
 .update-form h3 {
 	color:black;
@@ -147,7 +163,7 @@ input {
 }
 .update-form input,
 .update-form select {
-	width: 100%;
+	width: 60%;
     height: 30px;
     font-size: 14px;
     display: block;
@@ -196,7 +212,6 @@ input {
 	z-index:-99;
 	opacity:0;
 	overflow: scroll;
-	transition: 0.3s ease;
 }
 .album-showroom {
 	width:90%;
@@ -219,9 +234,8 @@ input {
 	cursor:pointer;
 	transform: scale(1.05);
 }
-.update-data,
-.send-data {
-	position:relative;
+button.update-data,
+button.send-data {
 	bottom:0px;
     width: 100%;
     height: 50px;
@@ -236,6 +250,9 @@ input {
     background-color: gold;
 }
 
+.button-disabled {
+	cursor:not-allowed;
+}
 /* INSERT */
 .insert {
 	position:relative;

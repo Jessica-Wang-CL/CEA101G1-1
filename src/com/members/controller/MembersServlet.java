@@ -10,18 +10,14 @@ import java.util.Base64.Decoder;
 import java.util.Base64.Encoder;
 import java.util.List;
 import javax.servlet.http.*;
-
-import org.apache.catalina.tribes.util.Arrays;
-
 import com.members.model.MembersService;
 import com.members.model.MembersVO;
 import com.payment.model.PaymentService;
-
 import javax.servlet.*;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import security.SecureUtils;
-
+import mail.*;
 
 @MultipartConfig
 @WebServlet("/MembersServlet")
@@ -36,7 +32,6 @@ public class MembersServlet extends HttpServlet {
 		String action = req.getParameter("action").trim();
 		RequestDispatcher dispatcher = null;
 		InputStream is = null;
-		
 
 		if ("insert_member".equals(action)) {
 			res.setCharacterEncoding("UTF-8");
@@ -49,7 +44,7 @@ public class MembersServlet extends HttpServlet {
 				byte[] salt = security.getSalt();
 				Encoder encoder = Base64.getEncoder();
 				String mb_salt = encoder.encodeToString(salt);
-				
+
 				String mb_pwd = security.getSecurePassword(req.getParameter("mb_pwd").trim(), salt);
 				String mb_bd_str = req.getParameter("mb_bd").trim();
 				DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
@@ -64,9 +59,8 @@ public class MembersServlet extends HttpServlet {
 				String mb_address = req.getParameter("mb_address").trim();
 				// payment vo
 				MembersService memberSvc = new MembersService();
-				memberSvc.addNewMem(mb_name, mb_acc, mb_pwd, mb_salt, mb_bd, mb_pic, mb_phone, mb_email, mb_city, mb_town,
-						mb_address);
-
+				memberSvc.addNewMem(mb_name, mb_acc, mb_pwd, mb_salt, mb_bd, mb_pic, mb_phone, mb_email, mb_city,
+						mb_town, mb_address); //新增會員
 				MembersVO membervo = memberSvc.getOneByMbAcc(mb_acc);
 				String mb_id = membervo.getMb_id();
 				String card_name = req.getParameter("credit-card-name");
@@ -76,7 +70,12 @@ public class MembersServlet extends HttpServlet {
 				String exp_year = expire[1];
 				String csc = req.getParameter("csc");
 				PaymentService paySvc = new PaymentService();
-				paySvc.insertCrdt(mb_id, card_no, card_name, exp_mon, exp_year, csc);
+				paySvc.insertCrdt(mb_id, card_no, card_name, exp_mon, exp_year, csc); //新增付款訊息
+				MailService mail = new MailService(); //發送驗證郵件
+				MailAuthenticate auth = new MailAuthenticate();
+				String mailMsg = "點擊以下連結啟用帳號，享受更多服務。http://localhost:8080/CEA101G1/MembersServlet?action=verify&authcode="
+						+ auth.insertCode(mb_id) + "&mb_id=" + mb_id;
+				mail.sendMail(mb_email, "戴蒙會員資格啟用驗證", mailMsg);
 				out.print("success");
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -222,30 +221,30 @@ public class MembersServlet extends HttpServlet {
 				}
 				Decoder decoder = Base64.getDecoder();
 				byte[] salt = decoder.decode(member.getMb_salt());
-				if(!member.getMb_pwd().equals(security.getSecurePassword(mb_pwd, salt))) {
+				if (!member.getMb_pwd().equals(security.getSecurePassword(mb_pwd, salt))) {
 					res.setContentType("text; charset=utf8");
 					out.print("pwd_incorrect");
 					return;
 				}
-				if("pass".equals(pass)) { //如果通過就存使用者的SeesionID 和 電子郵件 在Cookie裏，用於自動判斷登入
-					String sessionID = req.getSession().getId();  //獲取使用者的sessionID
-					Cookie user_session_cookie = new Cookie("diamond-session", sessionID); 
+				if ("pass".equals(pass)) { // 如果通過就存使用者的SeesionID 和 電子郵件 在Cookie裏，用於自動判斷登入
+					String sessionID = req.getSession().getId(); // 獲取使用者的sessionID
+					Cookie user_session_cookie = new Cookie("diamond-session", sessionID);
 					Cookie dmUser = new Cookie("dmUser", member.getMb_email());
-					user_session_cookie.setMaxAge(24*60*60); // 設定cookie存活時間為1天
-					res.addCookie(user_session_cookie); //加入cookie到使用者瀏覽器
-					res.addCookie(dmUser); 
-					Object location = user_session.getAttribute("location"); //查看使用者是否有登入前的頁面
+					user_session_cookie.setMaxAge(24 * 60 * 60); // 設定cookie存活時間為1天
+					res.addCookie(user_session_cookie); // 加入cookie到使用者瀏覽器
+					res.addCookie(dmUser);
+					Object location = user_session.getAttribute("location"); // 查看使用者是否有登入前的頁面
 					if (location == null) {
-						location = req.getParameter("location"); //如果沒有的話，表示使用者是使用小人頭登入，找到來源網頁
+						location = req.getParameter("location"); // 如果沒有的話，表示使用者是使用小人頭登入，找到來源網頁
 					}
 					req.getSession().setAttribute("member", member);
-					res.sendRedirect((String)location);
-				}	
+					res.sendRedirect((String) location);
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		if ("member-logout".equals(action)) {
 			res.setCharacterEncoding("UTF-8");
 			Cookie dmUser = new Cookie("dmUser", "");
@@ -273,13 +272,14 @@ public class MembersServlet extends HttpServlet {
 		}
 
 		if ("getone_bymbid".equals(action)) {
-			dispatcher = req.getRequestDispatcher(req.getContextPath() + "/.jsp");
+			String location = req.getParameter("location");
+			dispatcher = req.getRequestDispatcher("/backend/members/" + location);
 			try {
 				MembersVO membervo = new MembersVO();
-				String rm_id = req.getParameter("mb_id");
+				String mb_id = req.getParameter("mb_id");
 				MembersService memberSvc = new MembersService();
-				membervo = memberSvc.getOneByMbId("mb_id");
-				req.setAttribute("member", membervo);
+				membervo = memberSvc.getOneByMbId(mb_id);
+				req.setAttribute("membervo", membervo);
 				dispatcher.forward(req, res);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -334,11 +334,22 @@ public class MembersServlet extends HttpServlet {
 				dispatcher.forward(req, res);
 			}
 		}
+
+		if ("verify".equals(action)) {
+			String code = req.getParameter("authcode");
+			String mb_id = req.getParameter("mb_id");
+			MailAuthenticate auth = new MailAuthenticate();
+			if (auth.verifyCode(mb_id, code)) {
+				MembersService memberSvc = new MembersService();
+				memberSvc.updateStatus(mb_id, "1");
+			}
+			res.sendRedirect("http://localhost:8080/CEA101G1/frontend/index.jsp");
+			return;
+		}
 	}
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		doPost(req, res);
 	}
-	
-	
+
 }

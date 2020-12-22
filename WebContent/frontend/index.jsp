@@ -437,7 +437,7 @@
 							<h6>聯繫我們</h6>
 							<ul>
 								<li>(08) 0857 9487</li>
-								<li>DiamondResort@gmail.com</li>
+								<li>DiamondResort101@gmail.com</li>
 								<li>Somewhere on the earth</li>
 							</ul>
 						</div>

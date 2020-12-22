@@ -2,18 +2,19 @@ package com.pickup.model;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class PickupVO implements Serializable {
 	private String pkup_no;
-	private String chop_no;
 	private String bk_no;
-	private Date pkup_time;
-	private Date arrive_datetime;
+	private String chop_no;
+	private Timestamp pkup_time;
+	private Timestamp arrive_datetime;
 	private String pkup_status;
 	
 	public PickupVO() {};
 	
-	public PickupVO(String pkup_no, String chop_no, String bk_no, Date arrive_datetime, String pkup_status) {
+	public PickupVO(String pkup_no, String bk_no, String chop_no, Timestamp arrive_datetime, String pkup_status) {
 		super();
 		this.pkup_no = pkup_no;
 		this.chop_no = chop_no;
@@ -22,7 +23,7 @@ public class PickupVO implements Serializable {
 		this.pkup_status = pkup_status;
 	}
 	
-	public PickupVO(Date pkup_time) {
+	public PickupVO(Timestamp pkup_time) {
 		this.pkup_time = pkup_time;
 	};
 
@@ -50,19 +51,19 @@ public class PickupVO implements Serializable {
 		this.bk_no = bk_no;
 	}
 
-	public Date getPkup_time() {
+	public Timestamp getPkup_time() {
 		return pkup_time;
 	}
 
-	public void setPkup_time(Date pkup_time) {
+	public void setPkup_time(Timestamp pkup_time) {
 		this.pkup_time = pkup_time;
 	}
 
-	public Date getArrive_datetime() {
+	public Timestamp getArrive_datetime() {
 		return arrive_datetime;
 	}
 
-	public void setArrive_datetime(Date arrive_datetime) {
+	public void setArrive_datetime(Timestamp arrive_datetime) {
 		this.arrive_datetime = arrive_datetime;
 	}
 

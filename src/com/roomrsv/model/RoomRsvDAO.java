@@ -1,15 +1,15 @@
 package com.roomrsv.model;
 
-import java.util.List;
+import java.util.*;
 import java.sql.Connection;
-import java.sql.Date;
+import java.time.LocalDate;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import javax.naming.Context;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import org.json.*;
 import com.roomtype.model.*;
 
 public class RoomRsvDAO implements RoomRsvDAO_interface {
@@ -34,7 +34,7 @@ public class RoomRsvDAO implements RoomRsvDAO_interface {
 	private static final String GETALLBYRMTYPE = "SELECT * FROM ROOM_RSV WHERE RM_TYPE = ? ORDER BY RSV_DATE";
 	
 	@Override
-	public void insert(Date rsvDate) {
+	public void insert(LocalDate rsvDate) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 
@@ -44,7 +44,7 @@ public class RoomRsvDAO implements RoomRsvDAO_interface {
 			RoomTypeService rmTypeSvc = new RoomTypeService();
 			List<RoomTypeVO> rmtypes = rmTypeSvc.getAll();
 			for (RoomTypeVO rmtypevo : rmtypes) {
-				pstmt.setDate(1, rsvDate);
+				pstmt.setObject(1, rsvDate);
 				pstmt.setString(2, rmtypevo.getRm_type());
 				pstmt.setInt(3, rmtypevo.getRm_qty());
 				pstmt.executeUpdate();
@@ -70,7 +70,7 @@ public class RoomRsvDAO implements RoomRsvDAO_interface {
 	}
 
 	@Override
-	public void update(Date rsvDate, String rmType, Integer rmLeft) {
+	public void update(LocalDate rsvDate, String rmType, Integer rmLeft) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 
@@ -79,7 +79,7 @@ public class RoomRsvDAO implements RoomRsvDAO_interface {
 			pstmt = conn.prepareStatement(UPDATE);
 			pstmt.setString(1, rmType);
 			pstmt.setInt(2, rmLeft);
-			pstmt.setDate(3, rsvDate);
+			pstmt.setObject(3, rsvDate);
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			throw new RuntimeException("A database error occured. " + e.getMessage());
@@ -102,14 +102,14 @@ public class RoomRsvDAO implements RoomRsvDAO_interface {
 	}
 
 	@Override
-	public void delete(Date rsvDate) {
+	public void delete(LocalDate rsvDate) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(DELETE);
-			pstmt.setDate(1, rsvDate);
+			pstmt.setObject(1, rsvDate);
 			pstmt.executeUpdate();
 		} catch (SQLException e) {
 			throw new RuntimeException("A database error occured. " + e.getMessage());
@@ -132,21 +132,21 @@ public class RoomRsvDAO implements RoomRsvDAO_interface {
 	}
 	
 	@Override
-	public RoomRsvVO getOneByDateNRmType(Date rsvDate, String rm_type) {
+	public RoomRsvVO getOneByDateNRmType(LocalDate rsvDate, String rm_type) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		RoomRsvVO rsvvo = new RoomRsvVO();
+		RoomRsvVO rsvvo = null;
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(GETONEBYDATENRMTYPE);
-			pstmt.setDate(1, rsvDate);
+			pstmt.setDate(1, java.sql.Date.valueOf(rsvDate));
 			pstmt.setString(2, rm_type);
 			rs = pstmt.executeQuery();
 
 			while(rs.next()) {
 				rsvvo = new RoomRsvVO();
-				rsvvo.setRsv_date(rs.getDate("RSV_DATE"));
+				rsvvo.setRsv_date(rs.getDate("RSV_DATE").toLocalDate());
 				rsvvo.setRm_type(rs.getString("RM_TYPE"));
 				rsvvo.setRm_left(rs.getInt("RM_LEFT"));
 			}
@@ -193,7 +193,7 @@ public class RoomRsvDAO implements RoomRsvDAO_interface {
 
 			while (rs.next()) {
 				RoomRsvVO rsvvo = new RoomRsvVO();
-				rsvvo.setRsv_date(rs.getDate("RSV_DATE"));
+				rsvvo.setRsv_date(rs.getDate("RSV_DATE").toLocalDate());
 				rsvvo.setRm_type(rs.getString("RM_TYPE"));
 				rsvvo.setRm_left(rs.getInt("RM_LEFT"));
 				roomRsv.add(rsvvo);
@@ -227,7 +227,7 @@ public class RoomRsvDAO implements RoomRsvDAO_interface {
 	}
 
 	@Override
-	public List<RoomRsvVO> getOneDayByDate(Date rsvDate) {
+	public List<RoomRsvVO> getOneDayByDate(LocalDate rsvDate) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -235,13 +235,13 @@ public class RoomRsvDAO implements RoomRsvDAO_interface {
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(GETONEDAYBYDATE);
-			pstmt.setDate(1, rsvDate);
+			pstmt.setObject(1, rsvDate);
 			rs = pstmt.executeQuery();
 
 			while(rs.next()) {
 				RoomRsvVO rsvvo = new RoomRsvVO();
 				rsvvo = new RoomRsvVO();
-				rsvvo.setRsv_date(rs.getDate("RSV_DATE"));
+				rsvvo.setRsv_date(rs.getDate("RSV_DATE").toLocalDate());
 				rsvvo.setRm_type(rs.getString("RM_TYPE"));
 				rsvvo.setRm_left(rs.getInt("RM_LEFT"));
 				roomRsv.add(rsvvo);
@@ -289,7 +289,7 @@ public class RoomRsvDAO implements RoomRsvDAO_interface {
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				RoomRsvVO rsvvo = new RoomRsvVO();
-				rsvvo.setRsv_date(rs.getDate("RSV_DATE"));
+				rsvvo.setRsv_date(rs.getDate("RSV_DATE").toLocalDate());
 				rsvvo.setRm_type(rs.getString("RM_TYPE"));
 				rsvvo.setRm_left(rs.getInt("RM_LEFT"));
 				roomRsv.add(rsvvo);
@@ -320,5 +320,24 @@ public class RoomRsvDAO implements RoomRsvDAO_interface {
 			}
 		}
 		return roomRsv;
+	}
+	
+	public Map<String, String[]> roomCheck(LocalDate rsvDate, Integer stay, String rmType) {
+		RoomTypeService rmtypeSvc = new RoomTypeService();
+		Map<String, String[]> map = new TreeMap<>();
+		LocalDate date = rsvDate;
+		RoomTypeVO rmtypevo = rmtypeSvc.getOne(rmType);
+		Integer rmLeft = rmtypevo.getRm_qty();
+		for (int i = 0; i < stay; i++) {
+			date = date.plusDays(i);
+			RoomRsvVO rsvvo = getOneByDateNRmType(date, rmType);
+			if (rsvvo == null) {
+				continue;
+			} else {
+				rmLeft = Math.min(rsvvo.getRm_left(), rmLeft); 
+			}
+		}
+		map.put(rsvDate.toString(), new String[] {rmType, rmLeft.toString()});
+		return map;
 	}
 }

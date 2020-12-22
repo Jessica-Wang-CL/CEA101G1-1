@@ -2,10 +2,10 @@ package com.roomrsv.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -16,9 +16,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.roomrsv.model.*;
 
-@WebServlet("/RoomRsvServlet")
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import com.roomrsv.model.*;
+import com.roomtype.model.RoomTypeService;
+import com.roomtype.model.RoomTypeVO;
+
+@WebServlet("/booking/Available")
 public class RoomRsvServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TimerTask rsvCleaner;
@@ -36,7 +42,7 @@ public class RoomRsvServlet extends HttpServlet {
 //		};
 //		
 //		schedule = new Timer();
-//		Date now = Calendar.getInstance().getTime();
+//		LocalDate now = Calendar.getInstance().getTime();
 //		now.set(year, month, date);
 //		schedule.scheduleAtFixedRate(rsvCleaner, now, 24*60*60*1000);
 	}
@@ -57,8 +63,7 @@ public class RoomRsvServlet extends HttpServlet {
 		if ("insert_n_update_rsv".equals(action)) {  //如果房客預定房型的日期沒有資料，則進入此判斷式
 			try {
 				String rsv_str = req.getParameter("rsv_date").trim();
-				DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-				Date rsv_date = new Date(df.parse(rsv_str).getTime());
+				LocalDate rsv_date = LocalDate.parse(rsv_str);
 				RoomRsvService rsvSvc = new RoomRsvService();
 				rsvSvc.insertRsvDate(rsv_date); //新增該天的客房預訂表
 				
@@ -76,8 +81,7 @@ public class RoomRsvServlet extends HttpServlet {
 		if ("update_rsv".equals(action)) {
 			try {
 				String rsv_str = req.getParameter("rsv_date").trim();
-				DateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-				Date rsv_date = new Date(df.parse(rsv_str).getTime());
+				LocalDate rsv_date = LocalDate.parse(rsv_str);
 				String rm_type = req.getParameter("rm_type"); //取得該房客訂購的房型
 				RoomRsvService rsvSvc = new RoomRsvService();
 				RoomRsvVO rsvvo = rsvSvc.getOneByDateNRmType(rsv_date, rm_type); //取得該天的訂房剩餘資訊
@@ -91,16 +95,47 @@ public class RoomRsvServlet extends HttpServlet {
 		}
 		
 		if ("getall_rsv".equals(action)) {
-			RequestDispatcher dispatcher = null;
 			try {
+				int nights = Integer.parseInt(req.getParameter("night"));
+				int adult = Integer.parseInt(req.getParameter("adult"));
+				int currentMonth = Integer.parseInt(req.getParameter("currentMonth"));
+				int currentYear = Integer.parseInt(req.getParameter("currentYear"));
 				RoomRsvService rsvSvc = new RoomRsvService();
 				List<RoomRsvVO> list = rsvSvc.getAll();
 				req.setAttribute("rsvList", list);
-				dispatcher = req.getRequestDispatcher("/");
 			} catch (Exception e) {
 				e.printStackTrace();
-				req.setAttribute("msg", "移除資料失敗");
-				dispatcher.forward(req, res);
+			}
+		}
+		
+		if("roomCheck".equals(action)) {
+			try {
+				String date = req.getParameter("date");
+				Integer stay = Integer.parseInt(req.getParameter("stay"));
+				String rmType = req.getParameter("rmtype");
+				LocalDate rsv_date = LocalDate.parse(date);
+				RoomRsvService rsvSvc = new RoomRsvService();
+				RoomTypeService rmtypeSvc = new RoomTypeService();
+				StringBuilder jsonStr = new StringBuilder();
+				if (rmType.equals("all")) {
+					List<RoomTypeVO> rmtypeList = rmtypeSvc.getAll();
+					JSONArray jsonArray = new JSONArray();
+					for (RoomTypeVO rmtypevo : rmtypeList) {
+						Map<String, String[]>  map = rsvSvc.roomCheck(rsv_date, stay, rmtypevo.getRm_type());
+						JSONObject json = new JSONObject(map);
+						jsonArray.put(json);
+					}
+					jsonStr.append(jsonArray.toString());
+				} else {
+					Map<String, String[]>  map = rsvSvc.roomCheck(rsv_date, stay, rmType);
+					JSONObject json = new JSONObject(map);
+					jsonStr.append(json.toString());
+				}
+				out = res.getWriter();
+				out.print(jsonStr.toString());
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw new RuntimeException(e.getMessage());
 			}
 		}
 	}

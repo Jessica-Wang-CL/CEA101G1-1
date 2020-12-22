@@ -1,27 +1,27 @@
 package com.roomrsv.model;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.time.LocalDate;
 
 public class RoomRsvVO implements Serializable {
-	private Date rsv_date;
+	private LocalDate rsv_date;
 	private String rm_type;
 	private Integer rm_left;
 	
 	public RoomRsvVO() {};
 	
-	public RoomRsvVO(Date rsv_date, String rm_type, Integer rm_left) {
+	public RoomRsvVO(LocalDate rsv_date, String rm_type, Integer rm_left) {
 		super();
 		this.rsv_date = rsv_date;
 		this.rm_type = rm_type;
 		this.rm_left = rm_left;
 	}
 
-	public Date getRsv_date() {
+	public LocalDate getRsv_date() {
 		return rsv_date;
 	}
 
-	public void setRsv_date(Date rsv_date) {
+	public void setRsv_date(LocalDate rsv_date) {
 		this.rsv_date = rsv_date;
 	}
 

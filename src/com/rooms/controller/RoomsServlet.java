@@ -7,7 +7,6 @@ import java.util.List;
 import javax.servlet.http.*;
 import com.rooms.model.*;
 import com.roomtype.model.RoomTypeService;
-
 import javax.servlet.*;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;

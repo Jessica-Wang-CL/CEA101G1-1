@@ -26,7 +26,7 @@ public class MembersDAO implements MembersDAO_interface {
 	private static final String INSERT = 
 			"INSERT INTO MEMBERS (MB_ID, MB_NAME, MB_ACC, MB_PWD, MB_SALT, MB_BD, MB_PIC, MB_PHONE, MB_EMAIL, MB_CITY, MB_TOWN, MB_ADDRESS) VALUES ('MEM' || LPAD(to_char(MB_SEQ.NEXTVAL), 7, '0'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String UPDATE = "UPDATE MEMBERS SET MB_NAME = ?, MB_BD = ?, MB_PHONE = ?, MB_EMAIL = ?, MB_CITY = ?, MB_TOWN = ?, MB_ADDRESS = ? WHERE MB_ID = ?";
-	private static final String UPDATESTATUS = "UPDATE MEMBERS SET MB_STATUS = ?,  WHERE MB_ID = ?";
+	private static final String UPDATESTATUS = "UPDATE MEMBERS SET MB_STATUS = ? WHERE MB_ID = ?";
 	private static final String UPDATEPIC = "UPDATE MEMBERS SET MB_PIC = ? WHERE MB_ID = ?";
 	private static final String UPDATEPWD = "UPDATE MEMBERS SET MB_PWD = ?, MB_SALT = ? WHERE MB_ID = ?";
 	private static final String UPDATEPOINT = "UPDATE MEMBERS SET MB_POINT = ? WHERE MB_ID = ?";
@@ -255,28 +255,31 @@ public class MembersDAO implements MembersDAO_interface {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		MembersVO membervo = new MembersVO();
+		MembersVO membervo = null;
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(GETONEBYACC);
 			pstmt.setString(1, mb_acc);
 			rs = pstmt.executeQuery();
 			
-			rs.next();
-			membervo.setMb_id(rs.getString("MB_ID"));
-			membervo.setMb_name(rs.getString("MB_NAME"));
-			membervo.setMb_acc(rs.getString("MB_ID"));
-			membervo.setMb_pwd(rs.getString("MB_PWD"));
-			membervo.setMb_salt(rs.getString("MB_SALT"));
-			membervo.setMb_bd(rs.getDate("MB_BD"));
-			membervo.setMb_phone(rs.getString("MB_PHONE"));
-			membervo.setMb_email(rs.getString("MB_EMAIL"));
-			membervo.setMb_city(rs.getString("MB_CITY"));
-			membervo.setMb_town(rs.getString("MB_TOWN"));
-			membervo.setMb_address(rs.getString("MB_ADDRESS"));
-			membervo.setMb_status(rs.getString("MB_STATUS"));
-			membervo.setCreate_date(rs.getDate("CREATE_DATE"));
-			membervo.setMb_point(rs.getInt("MB_POINT"));
+			while(rs.next()) {
+				membervo = new MembersVO();
+				membervo.setMb_id(rs.getString("MB_ID"));
+				membervo.setMb_name(rs.getString("MB_NAME"));
+				membervo.setMb_acc(rs.getString("MB_ID"));
+				membervo.setMb_pwd(rs.getString("MB_PWD"));
+				membervo.setMb_salt(rs.getString("MB_SALT"));
+				membervo.setMb_bd(rs.getDate("MB_BD"));
+				membervo.setMb_phone(rs.getString("MB_PHONE"));
+				membervo.setMb_email(rs.getString("MB_EMAIL"));
+				membervo.setMb_city(rs.getString("MB_CITY"));
+				membervo.setMb_town(rs.getString("MB_TOWN"));
+				membervo.setMb_address(rs.getString("MB_ADDRESS"));
+				membervo.setMb_status(rs.getString("MB_STATUS"));
+				membervo.setCreate_date(rs.getDate("CREATE_DATE"));
+				membervo.setMb_point(rs.getInt("MB_POINT"));
+			}
+			
 			
 		} catch (SQLException e) {
 			throw new RuntimeException("A database error occured. " + e.getMessage());
@@ -312,30 +315,31 @@ public class MembersDAO implements MembersDAO_interface {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		MembersVO membervo = new MembersVO();
+		MembersVO membervo = null;
 		try {
 			conn = ds.getConnection();
 			pstmt = conn.prepareStatement(GETONEBYID);
 			pstmt.setString(1, mb_id);
 			rs = pstmt.executeQuery();
 			
-			rs.next();
-			membervo.setMb_id(rs.getString("MB_ID"));
-			membervo.setMb_name(rs.getString("MB_NAME"));
-			membervo.setMb_acc(rs.getString("MB_ID"));
-			membervo.setMb_pwd(rs.getString("MB_PWD"));
-			membervo.setMb_salt(rs.getString("MB_SALT"));
-			membervo.setMb_bd(rs.getDate("MB_BD"));
-			membervo.setMb_phone(rs.getString("MB_PHONE"));
-			membervo.setMb_email(rs.getString("MB_EMAIL"));
-			membervo.setMb_city(rs.getString("MB_CITY"));
-			membervo.setMb_town(rs.getString("MB_TOWN"));
-			membervo.setMb_address(rs.getString("MB_ADDRESS"));
-			membervo.setMb_status(rs.getString("MB_STATUS"));
-			membervo.setCreate_date(rs.getDate("CREATE_DATE"));
-			membervo.setMb_point(rs.getInt("MB_POINT"));
-			membervo.setMb_pic(rs.getBytes("MB_PIC"));
-			
+			while(rs.next()) {
+				membervo = new MembersVO();
+				membervo.setMb_id(rs.getString("MB_ID"));
+				membervo.setMb_name(rs.getString("MB_NAME"));
+				membervo.setMb_acc(rs.getString("MB_ID"));
+				membervo.setMb_pwd(rs.getString("MB_PWD"));
+				membervo.setMb_salt(rs.getString("MB_SALT"));
+				membervo.setMb_bd(rs.getDate("MB_BD"));
+				membervo.setMb_phone(rs.getString("MB_PHONE"));
+				membervo.setMb_email(rs.getString("MB_EMAIL"));
+				membervo.setMb_city(rs.getString("MB_CITY"));
+				membervo.setMb_town(rs.getString("MB_TOWN"));
+				membervo.setMb_address(rs.getString("MB_ADDRESS"));
+				membervo.setMb_status(rs.getString("MB_STATUS"));
+				membervo.setCreate_date(rs.getDate("CREATE_DATE"));
+				membervo.setMb_point(rs.getInt("MB_POINT"));
+				membervo.setMb_pic(rs.getBytes("MB_PIC"));
+			}
 		} catch (SQLException e) {
 			throw new RuntimeException("A database error occured. " + e.getMessage());
 		} finally {

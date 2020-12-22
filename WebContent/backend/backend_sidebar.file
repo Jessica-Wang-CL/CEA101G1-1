@@ -60,9 +60,9 @@
                                 <a href="#"> <i class="fa fa-bell"></i> <span>前台房務系統</span> </a>
                                 <div class="sidebar-submenu">
                                     <ul>
-                                        <li><a href="#">入住/退房系統</a></li>
-                                        <li><a href="#">接送確認</a></li>
-                                        <li><a href="#">住客訂單查詢</a></li>
+                                        <li><a href="<%=request.getContextPath()%>/backend/booking/counterSystem.jsp">住退房管理系統</a></li>
+                                        <li><a href="<%=request.getContextPath()%>/backend/pickup/pkupInfo.jsp">接送預約管理</a></li>
+                                        <li><a href="<%=request.getContextPath()%>/backend/booking/bookingInfo.jsp">住客訂單管理</a></li>
                                     </ul>
                                 </div>
                             </li>
