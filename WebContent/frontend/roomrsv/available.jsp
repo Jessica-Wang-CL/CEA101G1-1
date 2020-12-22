@@ -40,6 +40,12 @@ pageContext.setAttribute("rsvList", rsvList);
                     <option value="7">7晚</option>
                 </select>
                 每人每晚的價格
+                <select name="rmType" id="rmType">
+                	<option value="all">全部房型</option>
+                   <c:forEach var="rmtypevo" items="${rmtypeSvc.getAll()}">
+                   		<option value="${rmtypevo.rm_type}">${rmtypevo.type_name}</option>
+                   </c:forEach>
+                </select>
             </h3>
             <p>Listed price is rate for first night only and is not indicative of average daily rates.</p>
         </div>
@@ -68,9 +74,11 @@ pageContext.setAttribute("rsvList", rsvList);
             let todayStr = thisYear + "-" + (thisMonth+1) + "-" + todayDate
             console.log(todayStr);
             let current = 0;
-            
+            var loaded = [0, 1]
             getCalendars(12); //拿一年份的月曆！
-
+            fetchAvalibility(current);
+            fetchAvalibility(current+1);
+            
             function createCalendar(year, month) {
                 let feb = leapYear(year);
                 let monthOfDay = [31, feb, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -203,6 +211,10 @@ pageContext.setAttribute("rsvList", rsvList);
                     }
                     calendars.eq(current).css("opacity", "1");
                     calendars.eq(current + 1).css("opacity", "1");
+                    if (loaded.indexOf(current+1) < 0){
+                    	fetchAvalibility(current + 1);
+                        loaded.push(current+1);
+                    }
                 });
                 backward.click(function () {
                     current -= 1;
@@ -217,6 +229,10 @@ pageContext.setAttribute("rsvList", rsvList);
                     }
                     calendars.eq(current).css("opacity", "1");
                     calendars.eq(current + 1).css("opacity", "1");
+                    if (loaded.indexOf(current) < 0){
+                    	fetchAvalibility(current);
+                        loaded.push(current+1);
+                    }
                 });
                 $(window).resize(function () {
                     let CalendarWidth = parseInt($(".calendar-wrapper").css("width").split("px")[0]);
@@ -224,18 +240,16 @@ pageContext.setAttribute("rsvList", rsvList);
                     position = reposition;
                     $("#display").css("transform", "translateX(-" + reposition + "px)");
                 });
-                fetchAvalibility($(".calendar-wrapper").eq(0));
-                fetchAvalibility($(".calendar-wrapper").eq(1));
             }
             var rm_price = {
             		<c:forEach var="rmtypevo" items="${rmtypeSvc.getAll()}">
             			${rmtypevo.rm_type}:${rmtypevo.rm_price},
             		</c:forEach>
             }
-            function fetchAvalibility(calendar){
-            	console.log(calendar)
-                let allDays = calendar.find(".calendar-default");
+            function fetchAvalibility(currentCal){
+                let allDays = $(".calendar-wrapper").eq(currentCal).find(".calendar-default");
                 let stayDays = $("#stay").val();
+                let roomType = $("#rmType").val();
                 for (let i = 0 ; i < allDays.length; i++){
                 	let currentDate = allDays.eq(i);
                     $.ajax({
@@ -243,7 +257,7 @@ pageContext.setAttribute("rsvList", rsvList);
                          data:{
                              date: currentDate.attr("id"),
                              stay: stayDays,
-                             rmtype: "all",
+                             rmtype: roomType,
                              action:"roomCheck"
                          },
                          type: 'POST',
@@ -273,12 +287,21 @@ pageContext.setAttribute("rsvList", rsvList);
                 } 
             }
             
-            fetchAvalibility();
             
             $("#stay").change(function(){
+            	loaded = [current, current+1];
+            	fetchAvalibility(current)
+            	fetchAvalibility(current+1)
             	 $(".calendar-price").text("");
             	 $(".calendar-default").removeClass("calendar-isFull calendar-isEmpty");
-            	fetchAvalibility();
+            })
+            
+            $("#rmType").change(function(){
+            	loaded = [current, current+1];
+            	fetchAvalibility(current)
+            	fetchAvalibility(current+1)
+            	 $(".calendar-price").text("");
+            	 $(".calendar-default").removeClass("calendar-isFull calendar-isEmpty");
             })
         });
 
