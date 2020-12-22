@@ -209,7 +209,7 @@ public class MembersServlet extends HttpServlet {
 			SecureUtils security = new SecureUtils();
 			HttpSession user_session = req.getSession();
 			try {
-				String mb_email = req.getParameter("mb_email");
+				String mb_email = req.getParameter("mb_email").trim();
 				String mb_pwd = req.getParameter("mb_pwd").trim();
 				String pass = req.getParameter("pass");
 				MembersService memberSvc = new MembersService();

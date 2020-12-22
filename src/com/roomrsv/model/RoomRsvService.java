@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONObject;
+
 public class RoomRsvService {
 	private RoomRsvDAO_interface dao;
 	
@@ -27,7 +29,7 @@ public class RoomRsvService {
 		dao.delete(rsvDate);
 	}
 	
-	public Map<String, String[]> roomCheck(LocalDate rsvDate, Integer stay, String rmType) {
+	public Integer roomCheck(LocalDate rsvDate, Integer stay, String rmType) {
 		return dao.roomCheck(rsvDate, stay, rmType);
 	}
 	

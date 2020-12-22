@@ -322,22 +322,22 @@ public class RoomRsvDAO implements RoomRsvDAO_interface {
 		return roomRsv;
 	}
 	
-	public Map<String, String[]> roomCheck(LocalDate rsvDate, Integer stay, String rmType) {
+	public Integer roomCheck(LocalDate rsvDate, Integer stay, String rmType) {
 		RoomTypeService rmtypeSvc = new RoomTypeService();
-		Map<String, String[]> map = new TreeMap<>();
-		LocalDate date = rsvDate;
 		RoomTypeVO rmtypevo = rmtypeSvc.getOne(rmType);
 		Integer rmLeft = rmtypevo.getRm_qty();
 		for (int i = 0; i < stay; i++) {
-			date = date.plusDays(i);
-			RoomRsvVO rsvvo = getOneByDateNRmType(date, rmType);
+			RoomRsvVO rsvvo = getOneByDateNRmType(rsvDate.plusDays(i), rmType);
 			if (rsvvo == null) {
 				continue;
+			} else if (rsvvo.getRm_left() == 0){
+				rmLeft = 0;
+				break;
 			} else {
 				rmLeft = Math.min(rsvvo.getRm_left(), rmLeft); 
 			}
+			
 		}
-		map.put(rsvDate.toString(), new String[] {rmType, rmLeft.toString()});
-		return map;
+		return rmLeft;
 	}
 }

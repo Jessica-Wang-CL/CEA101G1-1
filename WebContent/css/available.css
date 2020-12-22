@@ -51,13 +51,13 @@ body {
     display: flex;
     flex-direction: row;
     width: fit-content;
-    transition: 0.5s ease-in-out;
+    transition: 0.3s ease-in-out;
     margin: 0 auto;
 }
 .calendar-wrapper {
     min-width: 550px;
     opacity: 0;
-    transition: 1s ease-in-out;
+    transition: 0.3s ease-in-out;
     padding: 0px 10px;
 }
 .title {
@@ -87,26 +87,17 @@ body {
 a.calendar-box {
     position: relative;
     display: block;
-    background-color: #e8e8e8;
+    background-color: #b9b9b9;
     height: 68px;
     width: 68px;
     border-radius: 5px;
-    cursor: no-drop;
     margin: 0 auto;
 }
 a.calendar-default {
     display: flexbox;
     border: 1.5px solid #e8e8e8;
-    cursor: pointer;
-    color: black;
-    background-color: #fff;
-}
-a.calendar-full {
-	 background-color: #e8e8e8;
-	 cursor: no-drop;
-}
-a.calendar-aval {
-	background-color: #fff;
+    background-color: white;
+    color:grey;
 }
 a.calendar-box:hover {
     color: rgb(255, 109, 109);
@@ -122,8 +113,34 @@ a div.calendar-date {
     text-align: right;
     align-self: flex-end;
 }
-a.calendar-default::before {
+a.calendar-isEmpty .calendar-price {
     position: absolute;
+    bottom: 2px;
+    right: 2px;
+    font-size: 12px;
+    font-weight: 500;
+}
+a.calendar-isFull {
+	background-color: #e8e8e8;
+	cursor: no-drop;
+	pointer-events: none;
+	color:grey;
+}
+a.calendar-isFull::before {
+	position: absolute;
+    left: 5px;
+    top: -7px;
+	font-size:30px;
+	content: "\0002DF";
+	color: grey;
+}
+a.calendar-isEmpty {
+	cursor: pointer;
+    color: black;
+    border-bottom: 1.5px solid #969696 ;
+}
+a.calendar-isEmpty::before {
+	position: absolute;
     left: 5px;
     top: 2px;
     font-family: "Font Awesome 5 Free";
@@ -131,16 +148,8 @@ a.calendar-default::before {
     color: rgb(16, 161, 16);
     font-size: 10px;
 }
-a.calendar-today {
+a.calendar-today .calendar-date {
     color: rgb(228, 104, 104);
-}
-a.calendar-price {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    font-size: 10px;
-    letter-spacing: 2px;
-    font-weight: 300;
 }
 .logo img {
     width: 150px;

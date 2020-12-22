@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.TreeMap;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -109,6 +110,7 @@ public class RoomRsvServlet extends HttpServlet {
 		}
 		
 		if("roomCheck".equals(action)) {
+			out = res.getWriter();
 			try {
 				String date = req.getParameter("date");
 				Integer stay = Integer.parseInt(req.getParameter("stay"));
@@ -116,23 +118,33 @@ public class RoomRsvServlet extends HttpServlet {
 				LocalDate rsv_date = LocalDate.parse(date);
 				RoomRsvService rsvSvc = new RoomRsvService();
 				RoomTypeService rmtypeSvc = new RoomTypeService();
-				StringBuilder jsonStr = new StringBuilder();
+				JSONObject jsonObj = new JSONObject();
 				if (rmType.equals("all")) {
 					List<RoomTypeVO> rmtypeList = rmtypeSvc.getAll();
-					JSONArray jsonArray = new JSONArray();
 					for (RoomTypeVO rmtypevo : rmtypeList) {
-						Map<String, String[]>  map = rsvSvc.roomCheck(rsv_date, stay, rmtypevo.getRm_type());
-						JSONObject json = new JSONObject(map);
-						jsonArray.put(json);
+						Integer rmLeft = rsvSvc.roomCheck(rsv_date, stay, rmtypevo.getRm_type());
+						if (rmLeft > 0) { //只放有空房的房型
+							jsonObj.put(rmtypevo.getRm_type(), rmLeft);
+						}
 					}
-					jsonStr.append(jsonArray.toString());
+					if (jsonObj.isEmpty()) { //如果都沒空房的情況
+						jsonObj.put("checkNext", rsv_date.plusDays(stay));
+						jsonObj.put("isFull", "true");
+					} else {
+						jsonObj.put("checkNext", rsv_date.plusDays(1L));
+					}
+					out.print(jsonObj);
 				} else {
-					Map<String, String[]>  map = rsvSvc.roomCheck(rsv_date, stay, rmType);
-					JSONObject json = new JSONObject(map);
-					jsonStr.append(json.toString());
+					Integer rmLeft = rsvSvc.roomCheck(rsv_date, stay, rmType);
+					if (rmLeft > 0) {
+						jsonObj.put(rmType, rmLeft);
+						jsonObj.put("checkNext", rsv_date.plusDays(1L));
+					} else {
+						jsonObj.put("checkNext", rsv_date.plusDays(stay));
+						jsonObj.put("isFull", "true");
+					}
+					out.print(jsonObj);
 				}
-				out = res.getWriter();
-				out.print(jsonStr.toString());
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw new RuntimeException(e.getMessage());
