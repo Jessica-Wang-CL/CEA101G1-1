@@ -6,7 +6,6 @@ import java.sql.Date;
 public class MembersVO implements Serializable {
 	private String mb_id;
 	private String mb_name;
-	private String mb_acc;
 	private String mb_pwd;
 	private String mb_salt;
 	private Date mb_bd;
@@ -22,12 +21,11 @@ public class MembersVO implements Serializable {
 	
 	public MembersVO() {};
 	
-	public MembersVO(String mb_id, String mb_name, String mb_acc, String mb_pwd, String mb_salt, Date mb_bd, byte[] mb_pic,
+	public MembersVO(String mb_id, String mb_name, String mb_pwd, String mb_salt, Date mb_bd, byte[] mb_pic,
 			String mb_phone, String mb_email, String mb_city, String mb_town, String mb_address, Integer mb_point) {
 		super();
 		this.mb_id = mb_id;
 		this.mb_name = mb_name;
-		this.mb_acc = mb_acc;
 		this.mb_pwd = mb_pwd;
 		this.mb_pwd = mb_salt;
 		this.mb_bd = mb_bd;
@@ -50,12 +48,6 @@ public class MembersVO implements Serializable {
 	}
 	public void setMb_name(String mb_name) {
 		this.mb_name = mb_name;
-	}
-	public String getMb_acc() {
-		return mb_acc;
-	}
-	public void setMb_acc(String mb_acc) {
-		this.mb_acc = mb_acc;
 	}
 	public String getMb_pwd() {
 		return mb_pwd;
@@ -123,17 +115,9 @@ public class MembersVO implements Serializable {
 	public void setMb_point(Integer mb_point) {
 		this.mb_point = mb_point;
 	}
-
-	/**
-	 * @return the mb_salt
-	 */
 	public String getMb_salt() {
 		return mb_salt;
 	}
-
-	/**
-	 * @param mb_salt the mb_salt to set
-	 */
 	public void setMb_salt(String mb_salt) {
 		this.mb_salt = mb_salt;
 	}

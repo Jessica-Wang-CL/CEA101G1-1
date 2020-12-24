@@ -4,7 +4,7 @@
 	<div class="login-window hide-login-window">
 <div class="cont">
 			<form id="login-form" method="POST"
-				action="<%=request.getContextPath()%>/MembersServlet">
+				action="<%=request.getContextPath()%>/LoginHandler">
 				<div class="login-form sign-in">
 					<h2>Welcome Back</h2>
 					<label> <span><i class="fas fa-user-circle"></i></span> <input

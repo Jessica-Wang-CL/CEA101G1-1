@@ -211,17 +211,30 @@ pageContext.setAttribute("rmtypeList", rmtypeList);
 	</main>
 	<div class="booking-now">
 		<div id="check-date">
-			<button>查看剩餘空房</button>
+			<a href="#available"><button >查看剩餘空房</button></a>
 		</div>
 		<div>
-			<a id="available" href="#available"><img class="booking-icon"
-				src="<%=request.getContextPath()%>/img/reserve-en-black-pc.svg" /></a>
+			<div id="available"><img class="booking-icon"
+				src="<%=request.getContextPath()%>/img/reserve-en-black-pc.svg" /></div>
 		</div>
+	</div>
+	<div class="calendar-available">
+		<jsp:include page="/frontend/roomrsv/available.jsp"/>
 	</div>
 	<script src="${pageContext.request.contextPath}/js/jquery-3.5.1.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/jquery.slicknav.js"></script>
+	<script src="${pageContext.request.contextPath}/js/jquery.datetimepicker.full.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/slick.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/main.js"></script>
 	<script src="${pageContext.request.contextPath}/js/rooms.js"></script>
+	<script>
+		$("#check-date a button").click(function(){
+			$("div.calendar-available").addClass("show-calendar");
+		})
+		
+		$(".close-calendar").click(function(){
+			$("div.calendar-available").removeClass("show-calendar");
+		})
+	</script>
 </body>
 </html>

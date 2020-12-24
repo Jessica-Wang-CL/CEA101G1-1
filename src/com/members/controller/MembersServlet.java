@@ -40,7 +40,6 @@ public class MembersServlet extends HttpServlet {
 			SecureUtils security = new SecureUtils();
 			try {
 				String mb_name = req.getParameter("mb_lname").trim() + req.getParameter("mb_fname").trim();
-				String mb_acc = req.getParameter("mb_acc").trim();
 				byte[] salt = security.getSalt();
 				Encoder encoder = Base64.getEncoder();
 				String mb_salt = encoder.encodeToString(salt);
@@ -59,9 +58,9 @@ public class MembersServlet extends HttpServlet {
 				String mb_address = req.getParameter("mb_address").trim();
 				// payment vo
 				MembersService memberSvc = new MembersService();
-				memberSvc.addNewMem(mb_name, mb_acc, mb_pwd, mb_salt, mb_bd, mb_pic, mb_phone, mb_email, mb_city,
+				memberSvc.addNewMem(mb_name, mb_pwd, mb_salt, mb_bd, mb_pic, mb_phone, mb_email, mb_city,
 						mb_town, mb_address); //新增會員
-				MembersVO membervo = memberSvc.getOneByMbAcc(mb_acc);
+				MembersVO membervo = memberSvc.getOneByMbEmail(mb_email);
 				String mb_id = membervo.getMb_id();
 				String card_name = req.getParameter("credit-card-name");
 				String card_no = req.getParameter("cardnumber");
@@ -202,75 +201,6 @@ public class MembersServlet extends HttpServlet {
 				dispatcher.forward(req, res);
 			}
 		}
-
-		if ("member-login".equals(action)) {
-			res.setCharacterEncoding("UTF-8");
-			PrintWriter out = res.getWriter();
-			SecureUtils security = new SecureUtils();
-			HttpSession user_session = req.getSession();
-			try {
-				String mb_email = req.getParameter("mb_email").trim();
-				String mb_pwd = req.getParameter("mb_pwd").trim();
-				String pass = req.getParameter("pass");
-				MembersService memberSvc = new MembersService();
-				MembersVO member = memberSvc.getOneByMbEmail(mb_email);
-				if (member == null) {
-					res.setContentType("text; charset=utf8");
-					out.print("email_not_found");
-					return;
-				}
-				Decoder decoder = Base64.getDecoder();
-				byte[] salt = decoder.decode(member.getMb_salt());
-				if (!member.getMb_pwd().equals(security.getSecurePassword(mb_pwd, salt))) {
-					res.setContentType("text; charset=utf8");
-					out.print("pwd_incorrect");
-					return;
-				}
-				if ("pass".equals(pass)) { // 如果通過就存使用者的SeesionID 和 電子郵件 在Cookie裏，用於自動判斷登入
-					String sessionID = req.getSession().getId(); // 獲取使用者的sessionID
-					Cookie user_session_cookie = new Cookie("diamond-session", sessionID);
-					Cookie dmUser = new Cookie("dmUser", member.getMb_email());
-					user_session_cookie.setMaxAge(24 * 60 * 60); // 設定cookie存活時間為1天
-					res.addCookie(user_session_cookie); // 加入cookie到使用者瀏覽器
-					res.addCookie(dmUser);
-					Object location = user_session.getAttribute("location"); // 查看使用者是否有登入前的頁面
-					if (location == null) {
-						location = req.getParameter("location"); // 如果沒有的話，表示使用者是使用小人頭登入，找到來源網頁
-					}
-					req.getSession().setAttribute("member", member);
-					res.sendRedirect((String) location);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-
-		if ("member-logout".equals(action)) {
-			res.setCharacterEncoding("UTF-8");
-			Cookie dmUser = new Cookie("dmUser", "");
-			String location = req.getParameter("location");
-			req.getSession().removeAttribute("member");
-			dmUser.setMaxAge(0);
-			res.addCookie(dmUser);
-			res.sendRedirect(location);
-		}
-
-		if ("getone_bymbacc".equals(action)) {
-			dispatcher = req.getRequestDispatcher(req.getContextPath() + "/.jsp");
-			try {
-				MembersVO membervo = new MembersVO();
-				String rm_acc = req.getParameter("mb_acc");
-				MembersService memberSvc = new MembersService();
-				membervo = memberSvc.getOneByMbAcc("mb_acc");
-				req.setAttribute("member", membervo);
-				dispatcher.forward(req, res);
-			} catch (Exception e) {
-				e.printStackTrace();
-				req.setAttribute("error", "無符合條件之查詢結果");
-				dispatcher.forward(req, res);
-			}
-		}
-
 		if ("getone_bymbid".equals(action)) {
 			String location = req.getParameter("location");
 			dispatcher = req.getRequestDispatcher("/backend/members/" + location);

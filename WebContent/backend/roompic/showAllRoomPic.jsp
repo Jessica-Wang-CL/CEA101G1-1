@@ -76,7 +76,6 @@ background-color: #f4f4f2;
 		})
 		$(".removepic").click(function(){
 			let willdel = document.getElementsByClassName("add-border");
-			console.log(willdel);
 			
 			for (let i = 0; i < willdel.length; i++) {
 				let srcStr = willdel[i].getAttribute("src").toString();

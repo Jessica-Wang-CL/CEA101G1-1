@@ -36,8 +36,9 @@ public class BookingOrderDAO implements BookingOrderDAO_interface {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
+			String[] genKey = new String[1];
 			conn = ds.getConnection();
-			pstmt = conn.prepareStatement(INSERT);
+			pstmt = conn.prepareStatement(INSERT, genKey);
 			pstmt.setString(1, bkodvo.getMb_id());
 			pstmt.setDate(2, bkodvo.getDateIn());
 			pstmt.setDate(3, bkodvo.getDateOut());

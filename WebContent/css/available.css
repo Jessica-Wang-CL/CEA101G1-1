@@ -2,8 +2,18 @@
     box-sizing: border-box;
 }
 body {
-    padding: 20px 0px;
+    padding: 0px 0px;
     font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+}
+.close-calendar {
+	position:absolute;
+	padding:10px;
+	background-color:#a4a4a4;
+	right:0;
+	top:0;
+}
+.close-calendar img {
+	width:35px;
 }
 .arrow {
     position: absolute;
@@ -17,13 +27,13 @@ body {
     margin: 0 auto;
 }
 .calendar-forward {
-    right: 10%;
-    top: 25%;
+    right: 5%;
+    top: 0;
     cursor: pointer;
 }
 .calendar-backward {
-    right: 15%;
-    top: 25%;
+    right: 10%;
+    top: 0;
     cursor: pointer;
 }
 .condition {
@@ -43,6 +53,7 @@ body {
     color: #495464;
 }
 .view {
+	position:relative;
     width: 1100px;
     overflow: hidden;
     margin: 0 auto;
@@ -179,8 +190,8 @@ a.calendar-today .calendar-date {
     .calendar .calendar-date::before {
         font-size: 16px;
     }
-    .calendar .calendar-price {
-        font-size: 14px;
+    .calendar div.calendar-price {
+        font-size: 18px;
     }
 }
 
@@ -194,5 +205,8 @@ a.calendar-today .calendar-date {
     }
     .view {
         width: 660px;
+    }
+     .calendar div.calendar-price {
+        font-size: 16px;
     }
 }

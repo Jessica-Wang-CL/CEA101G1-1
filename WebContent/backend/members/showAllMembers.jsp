@@ -109,7 +109,7 @@ img {
 						<th><input type="text" id="mb_id" maxlength="10"
 							placeholder="會員編號" style="text-transform: uppercase"></th>
 						<th>會員姓名</th>
-						<th>會員帳號</th>
+						<th>E-MAIL</th>
 						<th>擁有積分</th>
 						<th>帳號狀態</th>
 						<th>會員詳情</th>
@@ -126,17 +126,18 @@ img {
 						<tr class="<%=layer[number++ % 2]%> ">
 							<td class="mb_id" id="${member.mb_id}">${member.mb_id}</td>
 							<td class="mb_name">${member.mb_name}</td>
-							<td class="mb_acc">${member.mb_acc}</td>
+							<td class="mb_email">${member.mb_email}</td>
 							<td class="mb_point">${member.mb_point}</td>
 							<td class="mb_status status-${member.mb_status}"><c:choose>
 									<c:when test="${member.mb_status.equals('0')}">未啟用</c:when>
 									<c:when test="${member.mb_status.equals('1')}">已啟用</c:when>
-									<c:when test="${member.mb_status.equals('2')}">已鎖定</c:when>
+									<c:when test="${member.mb_status.equals('2')}">入住中</c:when>
+									<c:when test="${member.mb_status.equals('3')}">已鎖定</c:when>
 									<c:otherwise>已註銷</c:otherwise>
 								</c:choose></td>
 							<td class="mb_bd" style="display: none">${member.mb_bd.toString()}</td>
 							<td class="mb_phone" style="display: none">${member.mb_phone}</td>
-							<td class="mb_email" style="display: none">${member.mb_email}</td>
+							
 							<td class="mb_city" style="display: none">${member.mb_city}</td>
 							<td class="mb_town" style="display: none">${member.mb_town}</td>
 							<td class="mb_address" style="display: none">${member.mb_address}</td>
@@ -167,9 +168,6 @@ img {
 				</h6>
 				<h6>
 					聯絡電話：<b id="detail-mbphone"></b>
-				</h6>
-				<h6>
-					電子郵箱：<b id="detail-mbemail"></b>
 				</h6>
 				<h6>
 					帳號創建日期：<b id="detail-createdate"></b>

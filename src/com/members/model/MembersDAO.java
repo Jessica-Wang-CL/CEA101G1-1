@@ -24,7 +24,7 @@ public class MembersDAO implements MembersDAO_interface {
 	}
 
 	private static final String INSERT = 
-			"INSERT INTO MEMBERS (MB_ID, MB_NAME, MB_ACC, MB_PWD, MB_SALT, MB_BD, MB_PIC, MB_PHONE, MB_EMAIL, MB_CITY, MB_TOWN, MB_ADDRESS) VALUES ('MEM' || LPAD(to_char(MB_SEQ.NEXTVAL), 7, '0'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			"INSERT INTO MEMBERS (MB_ID, MB_NAME,  MB_PWD, MB_SALT, MB_BD, MB_PIC, MB_PHONE, MB_EMAIL, MB_CITY, MB_TOWN, MB_ADDRESS) VALUES ('MEM' || LPAD(to_char(MB_SEQ.NEXTVAL), 7, '0'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String UPDATE = "UPDATE MEMBERS SET MB_NAME = ?, MB_BD = ?, MB_PHONE = ?, MB_EMAIL = ?, MB_CITY = ?, MB_TOWN = ?, MB_ADDRESS = ? WHERE MB_ID = ?";
 	private static final String UPDATESTATUS = "UPDATE MEMBERS SET MB_STATUS = ? WHERE MB_ID = ?";
 	private static final String UPDATEPIC = "UPDATE MEMBERS SET MB_PIC = ? WHERE MB_ID = ?";
@@ -46,16 +46,15 @@ public class MembersDAO implements MembersDAO_interface {
 			pstmt = conn.prepareStatement(INSERT);
 			
 			pstmt.setString(1, membervo.getMb_name());
-			pstmt.setString(2, membervo.getMb_acc());
-			pstmt.setString(3, membervo.getMb_pwd());
-			pstmt.setString(4, membervo.getMb_salt());
-			pstmt.setDate(5, membervo.getMb_bd());
-			pstmt.setBytes(6, membervo.getMb_pic());
-			pstmt.setString(7, membervo.getMb_phone());
-			pstmt.setString(8, membervo.getMb_email());
-			pstmt.setString(9, membervo.getMb_city());
-			pstmt.setString(10, membervo.getMb_town());
-			pstmt.setString(11, membervo.getMb_address());
+			pstmt.setString(2, membervo.getMb_pwd());
+			pstmt.setString(3, membervo.getMb_salt());
+			pstmt.setDate(4, membervo.getMb_bd());
+			pstmt.setBytes(5, membervo.getMb_pic());
+			pstmt.setString(6, membervo.getMb_phone());
+			pstmt.setString(7, membervo.getMb_email());
+			pstmt.setString(8, membervo.getMb_city());
+			pstmt.setString(9, membervo.getMb_town());
+			pstmt.setString(10, membervo.getMb_address());
 			
 			pstmt.executeUpdate();			
 		} catch (SQLException e) {
@@ -266,7 +265,6 @@ public class MembersDAO implements MembersDAO_interface {
 				membervo = new MembersVO();
 				membervo.setMb_id(rs.getString("MB_ID"));
 				membervo.setMb_name(rs.getString("MB_NAME"));
-				membervo.setMb_acc(rs.getString("MB_ID"));
 				membervo.setMb_pwd(rs.getString("MB_PWD"));
 				membervo.setMb_salt(rs.getString("MB_SALT"));
 				membervo.setMb_bd(rs.getDate("MB_BD"));
@@ -326,7 +324,6 @@ public class MembersDAO implements MembersDAO_interface {
 				membervo = new MembersVO();
 				membervo.setMb_id(rs.getString("MB_ID"));
 				membervo.setMb_name(rs.getString("MB_NAME"));
-				membervo.setMb_acc(rs.getString("MB_ID"));
 				membervo.setMb_pwd(rs.getString("MB_PWD"));
 				membervo.setMb_salt(rs.getString("MB_SALT"));
 				membervo.setMb_bd(rs.getDate("MB_BD"));
@@ -385,7 +382,6 @@ public class MembersDAO implements MembersDAO_interface {
 				membervo = new MembersVO();
 				membervo.setMb_id(rs.getString("MB_ID"));
 				membervo.setMb_name(rs.getString("MB_NAME"));
-				membervo.setMb_acc(rs.getString("MB_ID"));
 				membervo.setMb_pwd(rs.getString("MB_PWD"));
 				membervo.setMb_salt(rs.getString("MB_SALT"));
 				membervo.setMb_bd(rs.getDate("MB_BD"));
@@ -444,7 +440,6 @@ public class MembersDAO implements MembersDAO_interface {
 				MembersVO membervo = new MembersVO();
 				membervo.setMb_id(rs.getString("MB_ID"));
 				membervo.setMb_name(rs.getString("MB_NAME"));
-				membervo.setMb_acc(rs.getString("MB_ACC"));
 				membervo.setMb_bd(rs.getDate("MB_BD"));
 				membervo.setMb_phone(rs.getString("MB_PHONE"));
 				membervo.setMb_email(rs.getString("MB_EMAIL"));
@@ -504,7 +499,6 @@ public class MembersDAO implements MembersDAO_interface {
 				MembersVO membervo = new MembersVO();
 				membervo.setMb_id(rs.getString("MB_ID"));
 				membervo.setMb_name(rs.getString("MB_NAME"));
-				membervo.setMb_acc(rs.getString("MB_ID"));
 				membervo.setMb_bd(rs.getDate("MB_BD"));
 				membervo.setMb_phone(rs.getString("MB_PHONE"));
 				membervo.setMb_email(rs.getString("MB_EMAIL"));

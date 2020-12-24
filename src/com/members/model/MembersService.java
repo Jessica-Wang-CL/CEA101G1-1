@@ -11,11 +11,10 @@ public class MembersService {
 		dao = new MembersDAO();
 	}
 	
-	public MembersVO addNewMem(String mb_name, String mb_acc, String mb_pwd, String mb_salt, Date mb_bd, byte[] mb_pic, String mb_phone,
+	public MembersVO addNewMem(String mb_name, String mb_pwd, String mb_salt, Date mb_bd, byte[] mb_pic, String mb_phone,
 			String mb_email, String mb_city, String mb_town, String mb_address) {
 		MembersVO membervo = new MembersVO();
 		membervo.setMb_name(mb_name);
-		membervo.setMb_acc(mb_acc);
 		membervo.setMb_pwd(mb_pwd);
 		membervo.setMb_salt(mb_salt);
 		membervo.setMb_pic(mb_pic);
@@ -71,11 +70,6 @@ public class MembersService {
 		membervo.setMb_point(mb_point);
 		dao.updatePoint(membervo);
 	}
-	
-	public MembersVO getOneByMbAcc(String mb_acc) {
-		return dao.getOneByAcc(mb_acc);
-	}
-	
 	public MembersVO getOneByMbId(String mb_id) {
 		return dao.getOneById(mb_id);
 	}

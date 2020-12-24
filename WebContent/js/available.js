@@ -170,6 +170,7 @@ $(document).ready(function () {
             			${rmtypevo.rm_type}:${rmtypevo.rm_price},
             		</c:forEach>
             } */
+			
             function fetchAvalibility(){
                 let allDays = $(".calendar-default");
                 let stayDays = $("#stay").val();

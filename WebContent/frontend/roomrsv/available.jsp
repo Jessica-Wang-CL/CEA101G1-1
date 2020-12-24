@@ -21,6 +21,9 @@ pageContext.setAttribute("rsvList", rsvList);
 </head>
 <body>
 	<h2 class="aval-title">空房狀況</h2>
+		<div class="close-calendar">
+			<a href="#"><img src="<%=request.getContextPath()%>/img/close_icon.svg"></a>
+		</div>
         <div class="condition">
             <h3>
                 此為
@@ -49,14 +52,15 @@ pageContext.setAttribute("rsvList", rsvList);
             </h3>
             <p>Listed price is rate for first night only and is not indicative of average daily rates.</p>
         </div>
-        <div class="calendar-backward arrow">
+       
+        <div class="view">
+            <div id="display"></div>
+             <div class="calendar-backward arrow">
             <i class="fas fa-chevron-left"></i>
         </div>
         <div class="calendar-forward arrow">
             <i class="fas fa-chevron-right"></i>
         </div>
-        <div class="view">
-            <div id="display"></div>
         </div>
         <div class="logo">
             <img src="<%=request.getContextPath()%>/img/logo.png" alt="" />
